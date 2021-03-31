@@ -27,9 +27,11 @@ func main() {
   // New initializes a HiRezAPI instance with devID, auth key, platform type, and response type.
   client, err := hirezapi.New(devID, authKey, hirezapi.URLSmitePC, hirezapi.ResponseTypeJSON)
 
-  // ^ NOTE: Using `struct` initialization and calling `New()` both require you to call `client.CreateSession()` manually, when ready to start making API calls.
+  // ^ NOTE: Using `struct` initialization and calling `New()` both require you to call
+  // `client.CreateSession()` manually, when ready to start making API calls.
 
-  // NewWithSession is like New() but it also tests connectivity with Ping and initializes a session for you. This could be used if you intend to query the API on some sort of schedule.
+  // NewWithSession is like New() but it also tests connectivity with Ping and initializes a
+  // session for you. This could be used if you intend to query the API on some sort of schedule.
   client, err := hirezapi.NewWithSession(devID, authKey, hirezapi.URLSmitePC, hirezapi.ResponseTypeJSON)
 }
 ```
