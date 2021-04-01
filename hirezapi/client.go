@@ -55,7 +55,7 @@ func (r ResponseType) String() string {
 }
 
 // IsResponseType exists to satisfy the MustBeResponseType interface
-func (r *ResponseType) IsResponseType() bool {
+func (r ResponseType) IsResponseType() bool {
 	return true
 }
 
@@ -126,7 +126,7 @@ func (a *APIClient) makeRequest(methodName, path string) (*http.Response, error)
 
 // generateSignature takes in the requested methodName and generates an md5 hashed signature for sending a request
 func (a *APIClient) GenerateSignature(methodName string) (string, string) {
-	utcNow := time.Now().Format(timeFormat)
+	utcNow := time.Now().UTC().Format(timeFormat)
 	sigStr := fmt.Sprintf("%s%s%s%s", a.DeveloperID, methodName, a.AuthKey, utcNow)
 	bs := []byte(sigStr)
 	return fmt.Sprintf("%x", md5.Sum(bs)), utcNow

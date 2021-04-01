@@ -5,8 +5,8 @@ import (
 	"io/ioutil"
 )
 
-// GetMatchDetails returns the statistics for a particular completed match.
-func (a *APIClient) GetMatchDetails() error {
+// GetGods returns all Gods and their various attributes.
+func (a *APIClient) GetGods() error {
 	resp, err := a.makeRequest("testsession", "")
 	if err != nil {
 		return err
@@ -20,8 +20,8 @@ func (a *APIClient) GetMatchDetails() error {
 	return nil
 }
 
-// GetMatchDetailsBatch returns the statistics for a particular set of completed matches. [limit batch query to 5-10 matchIDs]
-func (a *APIClient) GetMatchDetailsBatch() error {
+// GetGodSkins returns all available skins for a particular God.
+func (a *APIClient) GetGodSkins() error {
 	resp, err := a.makeRequest("testsession", "")
 	if err != nil {
 		return err
@@ -35,8 +35,8 @@ func (a *APIClient) GetMatchDetailsBatch() error {
 	return nil
 }
 
-// GetMatchPlayerDetails returns player information for a live match.
-func (a *APIClient) GetMatchPlayerDetails() error {
+// GetGodRecommendedItems returns the recommended items for a particular God.
+func (a *APIClient) GetGodRecommendedItems() error {
 	resp, err := a.makeRequest("testsession", "")
 	if err != nil {
 		return err
@@ -50,23 +50,8 @@ func (a *APIClient) GetMatchPlayerDetails() error {
 	return nil
 }
 
-// GetMatchIDsByQueue list all MatchIDs for a particular match queue
-func (a *APIClient) GetMatchIDsByQueue() error {
-	resp, err := a.makeRequest("testsession", "")
-	if err != nil {
-		return err
-	}
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return err
-	}
-	fmt.Printf("\n%s\n", body)
-	return nil
-}
-
-// GetQueueStats returns match summary stats for a player + queue, grouped by Gods played.
-func (a *APIClient) GetQueueStats() error {
+// GetItems returns all items and their various attributes.
+func (a *APIClient) GetItems() error {
 	resp, err := a.makeRequest("testsession", "")
 	if err != nil {
 		return err

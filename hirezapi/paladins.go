@@ -5,8 +5,8 @@ import (
 	"io/ioutil"
 )
 
-// GetESportsProLeagueDetails returns matchup info for each matchup of the current season. match_status = 1 - scheduled, 2 - in progress, 3 - complete
-func (a *APIClient) GetESportsProLeagueDetails() error {
+// GetChampionRanks returns the rank and worshipper values for each Champion a player has played.
+func (a *APIClient) GetChampionRanks() error {
 	resp, err := a.makeRequest("testsession", "")
 	if err != nil {
 		return err
@@ -20,8 +20,8 @@ func (a *APIClient) GetESportsProLeagueDetails() error {
 	return nil
 }
 
-// GetGodLeaderboard returns the current season's leaderboard for a god/queue. [SmiteAPI: only queues 440, 450, 451 apply]
-func (a *APIClient) GetGodLeaderboard() error {
+// GetChampions returns all Champions and their various attributes.
+func (a *APIClient) GetChampions() error {
 	resp, err := a.makeRequest("testsession", "")
 	if err != nil {
 		return err
@@ -35,8 +35,8 @@ func (a *APIClient) GetGodLeaderboard() error {
 	return nil
 }
 
-// GetLeagueLeaderboard returns the top players for a particular league.
-func (a *APIClient) GetLeagueLeaderboard() error {
+// GetChampionLeaderboard returns the current season's leaderboard for a champion/queue. [ Only queue 428]
+func (a *APIClient) GetChampionLeaderboard() error {
 	resp, err := a.makeRequest("testsession", "")
 	if err != nil {
 		return err
@@ -50,8 +50,8 @@ func (a *APIClient) GetLeagueLeaderboard() error {
 	return nil
 }
 
-// GetLeageSeasons returns a list of seasons for a match queue.
-func (a *APIClient) GetLeagueSeasons() error {
+// GetChampionSkins
+func (a *APIClient) GetChampionSkins() error {
 	resp, err := a.makeRequest("testsession", "")
 	if err != nil {
 		return err
@@ -65,8 +65,8 @@ func (a *APIClient) GetLeagueSeasons() error {
 	return nil
 }
 
-// GetMOTD returns information about the 20 most recent Match-of-the-Days.
-func (a *APIClient) GetMOTD() error {
+// GetPlayerIDInfoForXBOXAndSwitch returns all PlayerID data associated with the playerName
+func (a *APIClient) GetPlayerIDInfoForXBOXAndSwitch() error {
 	resp, err := a.makeRequest("testsession", "")
 	if err != nil {
 		return err
@@ -78,25 +78,11 @@ func (a *APIClient) GetMOTD() error {
 	}
 	fmt.Printf("\n%s\n", body)
 	return nil
+
 }
 
-// GetTopMatches returns the 50 most watched / recorded matches.
-func (a *APIClient) GetTopMatches() error {
-	resp, err := a.makeRequest("testsession", "")
-	if err != nil {
-		return err
-	}
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return err
-	}
-	fmt.Printf("\n%s\n", body)
-	return nil
-}
-
-// GetPatchInfo returns information about the currently deployed patch.
-func (a *APIClient) GetPatchInfo() error {
+// GetPlayerLoadouts returns deck loadouts per Champion
+func (a *APIClient) GetPlayerLoadouts() error {
 	resp, err := a.makeRequest("testsession", "")
 	if err != nil {
 		return err

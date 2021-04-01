@@ -24,7 +24,7 @@ func main() {
     RespType: "json",
   }
 
-  // New initializes a HiRezAPI instance with devID, auth key, platform type, and response type.
+  // New initializes a HiRezAPI instance with devID, auth key, url, and response type.
   client, err := hirezapi.New(devID, authKey, hirezapi.URLSmitePC, hirezapi.ResponseTypeJSON)
 
   // ^ NOTE: Using `struct` initialization and calling `New()` both require you to call
