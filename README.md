@@ -21,8 +21,8 @@ func main() {
   // session for you. This could be used if you intend to query the API on some sort of schedule.
   client, err := hirezapi.NewWithSession(devID, authKey, hirezapi.URLSmitePC, hirezapi.ResponseTypeJSON)
 
-  // Direct struct initialization is supported, though the constructor methods are recommended since they avoid
-  // potential fail cases like typos in the BasePath or an unsuppored RespType
+  // Direct struct initialization is supported, though the constructor methods are recommended since
+  // they avoid potential fail cases like typos in the BasePath or an unsuppored RespType
   client := &hirezapi.APIClient{
     DeveloperID: devID,
     AuthKey: authKey,
