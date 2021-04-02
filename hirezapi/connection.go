@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 
 	"github.com/bshore/go-hirez/models"
@@ -11,8 +12,7 @@ import (
 
 // Ping is a quick way of validating access to the Hi-Rez API.
 func (a *APIClient) Ping() error {
-	method := "ping"
-	url := fmt.Sprintf("%s/%s%s", a.BasePath, method, a.RespType)
+	url := fmt.Sprintf("%s/%s%s", a.BasePath, "ping", a.RespType)
 	resp, err := http.Get(url)
 	if resp.StatusCode != http.StatusOK {
 		return err
@@ -22,22 +22,30 @@ func (a *APIClient) Ping() error {
 
 // CreateSession is a required step to Authenticate the developerId/signature for further API use.
 func (a *APIClient) CreateSession() error {
-	method := "createsession"
-	sig, stamp := a.GenerateSignature(method)
-	url := fmt.Sprintf("%s/%s%s/%s/%s/%s", a.BasePath, method, a.RespType, a.DeveloperID, sig, stamp)
+	sig, stamp := a.generateSignature("createsession")
+	url := fmt.Sprintf(
+		"%s/%s%s/%s/%s/%s",
+		URLSmitePC.String(), // Smite PC is the session management endpoint.
+		"createsession",
+		ResponseTypeJSON.String(), // Create session using json
+		a.DeveloperID,
+		sig,
+		stamp,
+	)
 	resp, err := http.Get(url)
 	if err != nil {
-		return err
+		return fmt.Errorf("error creating session: %v", err)
 	}
 	defer resp.Body.Close()
-	sess := &models.SessionResponse{}
+	sess := &models.Session{}
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return err
+		return fmt.Errorf("error reading response: %v", err)
 	}
 	err = json.Unmarshal(body, sess)
 	if err != nil {
-		return err
+		log.Print(string(body))
+		return fmt.Errorf("error unmarshaling response: %v", err)
 	}
 	if sess.RetMsg != "Approved" {
 		return fmt.Errorf("error creating session: %v", sess.RetMsg)
@@ -62,7 +70,7 @@ func (a *APIClient) TestSession() (string, error) {
 }
 
 // GetHirezServerStatus returns UP/DOWN status for the primary game/platform environments. Data is cached once a minute.
-func (a *APIClient) GetHiRezServerStatus() ([]models.HiRezServerStatusResponse, error) {
+func (a *APIClient) GetHiRezServerStatus() ([]models.HiRezServerStatus, error) {
 	resp, err := a.makeRequest("gethirezserverstatus", "")
 	if err != nil {
 		return nil, err
@@ -72,13 +80,13 @@ func (a *APIClient) GetHiRezServerStatus() ([]models.HiRezServerStatusResponse, 
 	if err != nil {
 		return nil, err
 	}
-	var output []models.HiRezServerStatusResponse
-	err = json.Unmarshal(body, &output)
+	var output []models.HiRezServerStatus
+	err = a.unmarshalResponse(body, &output)
 	return output, err
 }
 
 // GetDataUsed returns API Developer daily usage limits and the current status against those limits.
-func (a *APIClient) GetDataUsed() ([]models.DataUsedResponse, error) {
+func (a *APIClient) GetDataUsed() ([]models.DataUsed, error) {
 	resp, err := a.makeRequest("getdataused", "")
 	if err != nil {
 		return nil, err
@@ -88,7 +96,17 @@ func (a *APIClient) GetDataUsed() ([]models.DataUsedResponse, error) {
 	if err != nil {
 		return nil, err
 	}
-	var output []models.DataUsedResponse
-	err = json.Unmarshal(body, &output)
+	var output []models.DataUsed
+	err = a.unmarshalResponse(body, &output)
 	return output, err
+}
+
+// ChangeBasePath modifies the base path if you want to query a different platform
+func (a *APIClient) ChangeBasePath(url MustBeURL) {
+	a.BasePath = url.String()
+}
+
+// ChangeResponseType modifies the response type if you want to switch between JSON and XML
+func (a *APIClient) ChangeResponseType(respType MustBeResponseType) {
+	a.RespType = respType.String()
 }
