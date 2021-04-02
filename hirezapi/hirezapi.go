@@ -1,5 +1,7 @@
 package hirezapi
 
+import "github.com/bshore/go-hirez/models"
+
 // HiRezAPI is a collection of endpoint methods for interacting with the Hi-Rez API
 // Definitions here are taken from the publicly available "Smite API Developer Guide" PDF
 // For the purpose of this project, only Smite-related API endpoints are defined
@@ -12,31 +14,31 @@ type HiRezAPI interface {
 	// CreateSession is a required step to Authenticate the developerId/signature for further API use.
 	CreateSession() error
 	// TestSession is a means of validating that a session is established.
-	TestSession() error
+	TestSession() (string, error)
 	// GetHirezServerStatus returns UP/DOWN status for the primary game/platform environments. Data is cached once a minute.
-	GetHiRezServerStatus() error
+	GetHiRezServerStatus() ([]models.HiRezServerStatusResponse, error)
 	// GetDataUsed returns API Developer daily usage limits and the current status against those limits.
-	GetDataUsed() error
+	GetDataUsed() ([]models.DataUsedResponse, error)
 
 	// ===== Player Related =====
-	// GetFriends returns Smite Usernames of each of the player's friends. [PC Only]
-	GetFriends() error
-	// GetGodRanks returns the rank and worshipper values for each God a player has played.
-	GetGodRanks() error
-	// GetMatchHistory returns a list of recent matches and high level match statistics for a particular player
-	GetMatchHistory() error
 	// GetPlayer returns league and other high level data for a particular player.
-	GetPlayer() error
+	GetPlayer(player string) ([]models.PlayerResponse, error)
+	// GetFriends returns Smite Usernames of each of the player's friends. [PC Only]
+	GetFriends(player string) ([]models.FriendsResponse, error)
+	// GetGodRanks returns the rank and worshipper values for each God a player has played.
+	GetGodRanks(player string) ([]models.GodRanksResponse, error)
+	// GetMatchHistory returns a list of recent matches and high level match statistics for a particular player
+	GetMatchHistory(player string) ([]models.MatchHistoryResponse, error)
 	// GetPlayerStatus returns a player status. 0 - offline, 1 - lobby, 2 - god select, 3 - in game, 4 - online, 5 - unknown
-	GetPlayerStatus() error
-	// GetTeamDetails returns the number of players and other high level details for a particular Clan.
-	GetTeamDetails() error
-	// GetTeamPlayers returns a list of players for a particular Clan.
-	GetTeamPlayers() error
-	// SearchTeams returns high level info for Clan names containing search term.
-	SearchTeams() error
+	GetPlayerStatus(player string) ([]models.PlayerStatusResponse, error)
 	// GetPlayerAchievements returns select achievement totals.
-	GetPlayerAchievements() error
+	GetPlayerAchievements(playerID string) error
+	// GetTeamDetails returns the number of players and other high level details for a particular Clan.
+	GetTeamDetails(clanID string) error
+	// GetTeamPlayers returns a list of players for a particular Clan.
+	GetTeamPlayers(clanID string) error
+	// SearchTeams returns high level info for Clan names containing search term.
+	SearchTeams(searchTeam string) error
 
 	// ===== Game Entity Related =====
 	// GetGods returns all Gods and their various attributes.

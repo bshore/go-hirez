@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+
+	"github.com/bshore/go-hirez/models"
 )
 
 // Ping is a quick way of validating access to the Hi-Rez API.
@@ -28,75 +30,65 @@ func (a *APIClient) CreateSession() error {
 		return err
 	}
 	defer resp.Body.Close()
-
-	sess := &SessionResponse{}
+	sess := &models.SessionResponse{}
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return err
 	}
-
 	err = json.Unmarshal(body, sess)
 	if err != nil {
 		return err
 	}
-
 	if sess.RetMsg != "Approved" {
 		return fmt.Errorf("error creating session: %v", sess.RetMsg)
 	}
-
 	a.SessionID = sess.SessionID
 	a.SessionStamp = sess.Timestamp
 	return nil
 }
 
 // TestSession is a means of validating that a session is established.
-func (a *APIClient) TestSession() error {
+func (a *APIClient) TestSession() (string, error) {
 	resp, err := a.makeRequest("testsession", "")
 	if err != nil {
-		return err
+		return "", err
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return err
+		return "", err
 	}
-	fmt.Printf("\n%s\n", body)
-	return nil
+	return string(body), nil
 }
 
 // GetHirezServerStatus returns UP/DOWN status for the primary game/platform environments. Data is cached once a minute.
-func (a *APIClient) GetHiRezServerStatus() error {
+func (a *APIClient) GetHiRezServerStatus() ([]models.HiRezServerStatusResponse, error) {
 	resp, err := a.makeRequest("gethirezserverstatus", "")
 	if err != nil {
-		return err
+		return nil, err
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	fmt.Printf("\n%s\n", body)
-	return nil
+	var output []models.HiRezServerStatusResponse
+	err = json.Unmarshal(body, &output)
+	return output, err
 }
 
 // GetDataUsed returns API Developer daily usage limits and the current status against those limits.
-func (a *APIClient) GetDataUsed() error {
+func (a *APIClient) GetDataUsed() ([]models.DataUsedResponse, error) {
 	resp, err := a.makeRequest("getdataused", "")
 	if err != nil {
-		return err
+		return nil, err
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	fmt.Printf("\n%s\n", body)
-	return nil
-}
-
-// ===== Types =====
-type SessionResponse struct {
-	RetMsg    string `json:"ret_msg"`
-	SessionID string `json:"session_id"`
-	Timestamp string `json:"timestmap"`
+	var output []models.DataUsedResponse
+	err = json.Unmarshal(body, &output)
+	return output, err
 }
