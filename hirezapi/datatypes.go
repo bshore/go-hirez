@@ -65,16 +65,16 @@ const (
 	TimeFormat string = "20060102150405"
 
 	// Language Codes
-	EnglishCode string = "1"
-	GermanCode string = "2"
-	FrenchCode string = "3"
-	ChineseCode string = "5"
-	SpanishCode string = "7"
-	SpanishLAMCode string = "9"
-	PortugueseCode string = "10"
-	RussianCode string = "11"
-	PolishCode string = "12"
-	TurkishCode string = "13"
+	English string = "1"
+	German string = "2"
+	French string = "3"
+	Chinese string = "5"
+	Spanish string = "7"
+	SpanishLAM string = "9"
+	Portuguese string = "10"
+	Russian string = "11"
+	Polish string = "12"
+	Turkish string = "13"
 
 	// League Tiers
 	Bronze5, Bronze4, Bronze3, Bronze2, Bronze1 string = "1", "2", "3", "4", "5"

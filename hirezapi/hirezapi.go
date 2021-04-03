@@ -77,31 +77,33 @@ type HiRezAPI interface {
 
 	// ===== Miscellaneous =====
 	// GetESportsProLeagueDetails returns matchup info for each matchup of the current season. match_status = 1 - scheduled, 2 - in progress, 3 - complete
-	GetESportsProLeagueDetails() error
+	GetESportsProLeagueDetails() ([]models.ESportsProLeagueDetail, error)
 	// GetGodLeaderboard returns the current season's leaderboard for a god/queue. [SmiteAPI: only queues 440, 450, 451 apply]
-	GetGodLeaderboard() error
+	GetGodLeaderboard(godID, queueID string) ([]models.GodLeaderboardEntry, error)
 	// GetLeagueLeaderboard returns the top players for a particular league.
-	GetLeagueLeaderboard() error
+	GetLeagueLeaderboard(queueID, tier, season string) error
 	// GetLeagueSeasons returns a list of seasons for a match queue.
-	GetLeagueSeasons() error
+	GetLeagueSeasons(queueID string) ([]models.Season, error)
 	// GetMOTD returns information about the 20 most recent Match-of-the-Days.
-	GetMOTD() error
+	GetMOTD() ([]models.MOTD, error)
 	// GetTopMatches returns the 50 most watched / recorded matches.
-	GetTopMatches() error
+	GetTopMatches() ([]models.TopMatch, error)
 	// GetPatchInfo returns information about the currently deployed patch.
-	GetPatchInfo() error
+	GetPatchInfo() (*models.VersionInfo, error)
 
 	// ===== Paladins =====
 	// GetChampionRanks returns the rank and worshipper values for each Champion a player has played.
-	GetChampionRanks() error
+	GetChampionRanks(player string) error
 	// GetChampions returns all Champions and their various attributes.
-	GetChampions() error
+	GetChampions(langCode string) ([]models.Champion, error)
 	// GetChampionLeaderboard returns the current season's leaderboard for a champion/queue. [ Only queue 428]
-	GetChampionLeaderboard() error
+	GetChampionLeaderboard(champID string) ([]models.ChampionLeaderboardEntry, error)
 	// GetChampionSkins
-	GetChampionSkins() error
+	GetChampionSkins(champID, langCode string) ([]models.ChampionSkin, error)
+
 	// GetPlayerIDInfoForXBOXAndSwitch returns all PlayerID data associated with the playerName
-	GetPlayerIDInfoForXBOXAndSwitch() error
+	// GetPlayerIDInfoForXBOXAndSwitch(player string) error
+
 	// GetPlayerLoadouts returns deck loadouts per Champion
-	GetPlayerLoadouts() error
+	GetPlayerLoadouts(player, langCode string) ([]models.PlayerLoadout, error)
 }

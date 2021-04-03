@@ -13,7 +13,7 @@ func (a *APIClient) GetGods(langCode string) ([]models.God, error) {
 		return nil, fmt.Errorf("GetGods() %s", notSmiteErrMsg)
 	}
 	if langCode == "" {
-		langCode = EnglishCode
+		langCode = English
 	}
 	resp, err := a.makeRequest("getgods", langCode)
 	if err != nil {
@@ -35,7 +35,7 @@ func (a *APIClient) GetGodSkins(godID int64, langCode string) ([]models.GodSkin,
 		return nil, fmt.Errorf("GetGodSkins() %s", notSmiteErrMsg)
 	}
 	if langCode == "" {
-		langCode = EnglishCode
+		langCode = English
 	}
 	path := fmt.Sprintf("%d/%s", godID, langCode)
 	resp, err := a.makeRequest("getgodskins", path)
@@ -58,7 +58,7 @@ func (a *APIClient) GetGodRecommendedItems(godID int64, langCode string) ([]mode
 		return nil, fmt.Errorf("GetGodRecommendedItems() %s", notSmiteErrMsg)
 	}
 	if langCode == "" {
-		langCode = EnglishCode
+		langCode = English
 	}
 	path := fmt.Sprintf("%d/%s", godID, langCode)
 	resp, err := a.makeRequest("getgodrecommendeditems", path)
@@ -78,7 +78,7 @@ func (a *APIClient) GetGodRecommendedItems(godID int64, langCode string) ([]mode
 // GetItems returns all items and their various attributes.
 func (a *APIClient) GetItems(langCode string) ([]models.Item, error) {
 	if langCode == "" {
-		langCode = EnglishCode
+		langCode = English
 	}
 	resp, err := a.makeRequest("getitems", langCode)
 	if err != nil {

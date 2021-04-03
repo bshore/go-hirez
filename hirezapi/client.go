@@ -6,6 +6,7 @@ import (
 	"encoding/xml"
 	"errors"
 	"fmt"
+	"log"
 	"net/http"
 	"time"
 )
@@ -61,6 +62,7 @@ func (a *APIClient) makeRequest(methodName, path string) (*http.Response, error)
 	if path != "" {
 		apiURL = fmt.Sprintf("%s/%s", apiURL, path)
 	}
+	log.Print(apiURL)
 	return http.Get(apiURL)
 }
 
