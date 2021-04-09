@@ -29,7 +29,22 @@ type GodLeaderboardEntry struct {
 	Wins          string `json:"wins"`
 }
 
-// type LeagueLeaderboardEntry struct {}
+type LeagueLeaderboardEntry struct {
+	Leaves       int64  `json:"Leaves"`
+	Losses       int64  `json:"Losses"`
+	Name         string `json:"Name"`
+	Points       int64  `json:"Points"`
+	PrevRank     int64  `json:"PrevRank"`
+	Rank         int64  `json:"Rank"`
+	RankStat     int64  `json:"Rank_Stat"`
+	RankVariance int64  `json:"Rank_Variance"`
+	Season       int64  `json:"Season"`
+	Tier         int64  `json:"Tier"`
+	Trend        int64  `json:"Trend"`
+	Wins         int64  `json:"Wins"`
+	PlayerID     string `json:"player_id"`
+	RetMsg       string `json:"ret_msg"`
+}
 
 type Season struct {
 	Complete          bool   `json:"complete"`

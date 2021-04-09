@@ -77,6 +77,24 @@ type ChampionSkin struct {
 	SkinNameEnglish string `json:"skin_name_english"`
 }
 
+type ChampionRank struct {
+	Assists     int64  `json:"Assists"`
+	Deaths      int64  `json:"Deaths"`
+	Gold        int64  `json:"Gold"`
+	Kills       int64  `json:"Kills"`
+	LastPlayed  string `json:"LastPlayed"`
+	Losses      int64  `json:"Losses"`
+	MinionKills int64  `json:"MinionKills"`
+	Minutes     int64  `json:"Minutes"`
+	Rank        int64  `json:"Rank"`
+	Wins        int64  `json:"Wins"`
+	Worshippers int64  `json:"Worshippers"`
+	Champion    string `json:"champion"`
+	ChampionID  string `json:"champion_id"`
+	PlayerID    string `json:"player_id"`
+	RetMsg      string `json:"ret_msg"`
+}
+
 type PlayerLoadout struct {
 	ChampionID   int64         `json:"ChampionId"`
 	ChampionName string        `json:"ChampionName"`
@@ -92,4 +110,47 @@ type LoadoutItem struct {
 	ItemID   int64  `json:"ItemId"`
 	ItemName string `json:"ItemName"`
 	Points   int64  `json:"Points"`
+}
+
+type PlayerIDInfoForXBOXAndSwitch struct {
+	Name         string `json:"Name"`
+	Gamertag     string `json:"gamer_tag"`
+	Platform     string `json:"platform"`
+	PlayerID     string `json:"player_id"`
+	PortalUserID int64  `json:"portal_userid"`
+	RetMsg       string `json:"ret_msg"`
+}
+
+type ChampionCard struct {
+	ActiveFlagActivationSchedule string `json:"active_flag_activation_schedule"`
+	ActiveFlagLTI                string `json:"active_flag_lti"`
+	CardDescription              string `json:"card_description"`
+	CardID1                      int64  `json:"card_id1"`
+	CardID2                      int64  `json:"card_id2"`
+	CardName                     string `json:"card_name"`
+	CardNameEnglish              string `json:"card_name_english"`
+	ChampionCardURL              string `json:"championCard_URL"`
+	ChampionCardIconURL          string `json:"championIcon_URL"`
+	ChampionTalentURL            string `json:"championTalent_URL"`
+	ChampionID                   int64  `json:"champion_id"`
+	ChampionName                 string `json:"champion_name"`
+	Exclusive                    string `json:"exclusive"`
+	Rank                         int64  `json:"rank"`
+	Rarity                       string `json:"rarity"`
+	RechargeSeconds              int64  `json:"recharge_seconds"`
+	RetMsg                       string `json:"ret_msg"`
+}
+
+type BountyItem struct {
+	Active          string `json:"active"`
+	BountyItemID1   int64  `json:"bounty_item_id1"`
+	BountyItemID2   int64  `json:"bounty_item_id2"`
+	BountyItemName  string `json:"bounty_item_name"`
+	ChampionID      int64  `json:"champion_id"`
+	ChampionName    string `json:"champion_name"`
+	FinalPrice      string `json:"final_price"`
+	InitialPrice    string `json:"initial_price"`
+	RetMsg          string `json:"ret_msg"`
+	SaleEndDatetime string `json:"sale_end_datetime"`
+	SaleType        string `json:"sale_type"`
 }

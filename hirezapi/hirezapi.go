@@ -25,6 +25,14 @@ type HiRezAPI interface {
 	// ===== Player Related =====
 	// GetPlayer returns league and other high level data for a particular player.
 	GetPlayer(player string) ([]models.Player, error)
+	// GetPlayer returns league and other high level data for a particular player.
+	GetPlayerByPlatform(player, portalID string) ([]models.Player, error)
+	// GetPlayerIDByName
+	GetPlayerIDByName(player string) ([]models.PlayerIDInfo, error)
+	// GetPlayerIDByPortalUserID
+	GetPlayerIDByPortalUserID(portalID, portalUserID string) ([]models.PlayerIDInfo, error)
+	// GetPlayerIDsByGamertag
+	GetPlayerIDsByGamertag(portalID, gamerTag string) ([]models.PlayerIDInfo, error)
 	// GetFriends returns Smite Usernames of each of the player's friends. [PC Only]
 	GetFriends(player string) ([]models.Friend, error)
 	// GetGodRanks returns the rank and worshipper values for each God a player has played.
@@ -41,6 +49,8 @@ type HiRezAPI interface {
 	GetTeamPlayers(clanID string) ([]models.TeamPlayer, error)
 	// SearchTeams returns high level info for Clan names containing search term.
 	SearchTeams(searchTeam string) ([]models.TeamDetail, error)
+	// SearchPlayers returns playerID values for all names and/or gamerTags containing searchPlayer
+	SearchPlayers(searchPlayer string) ([]models.PlayerIDInfo, error)
 
 	// ===== Game Entity Related =====
 	// GetGods returns all Gods and their various attributes.
@@ -81,7 +91,7 @@ type HiRezAPI interface {
 	// GetGodLeaderboard returns the current season's leaderboard for a god/queue. [SmiteAPI: only queues 440, 450, 451 apply]
 	GetGodLeaderboard(godID, queueID string) ([]models.GodLeaderboardEntry, error)
 	// GetLeagueLeaderboard returns the top players for a particular league.
-	GetLeagueLeaderboard(queueID, tier, season string) error
+	GetLeagueLeaderboard(queueID, tier, round string) ([]models.LeagueLeaderboardEntry, error)
 	// GetLeagueSeasons returns a list of seasons for a match queue.
 	GetLeagueSeasons(queueID string) ([]models.Season, error)
 	// GetMOTD returns information about the 20 most recent Match-of-the-Days.
@@ -92,18 +102,22 @@ type HiRezAPI interface {
 	GetPatchInfo() (*models.VersionInfo, error)
 
 	// ===== Paladins =====
+	// GetPlayerBatch returns league and other high level data for a particular list of players. [20 max]
+	GetPlayerBatch(playerIDs []string) ([]models.Player, error)
 	// GetChampionRanks returns the rank and worshipper values for each Champion a player has played.
-	GetChampionRanks(player string) error
+	GetChampionRanks(player string) ([]models.ChampionRank, error)
 	// GetChampions returns all Champions and their various attributes.
 	GetChampions(langCode string) ([]models.Champion, error)
 	// GetChampionLeaderboard returns the current season's leaderboard for a champion/queue. [ Only queue 428]
 	GetChampionLeaderboard(champID string) ([]models.ChampionLeaderboardEntry, error)
 	// GetChampionSkins
 	GetChampionSkins(champID, langCode string) ([]models.ChampionSkin, error)
-
 	// GetPlayerIDInfoForXBOXAndSwitch returns all PlayerID data associated with the playerName
-	// GetPlayerIDInfoForXBOXAndSwitch(player string) error
-
+	GetPlayerIDInfoForXBOXAndSwitch(player string) ([]models.PlayerIDInfoForXBOXAndSwitch, error)
 	// GetPlayerLoadouts returns deck loadouts per Champion
 	GetPlayerLoadouts(player, langCode string) ([]models.PlayerLoadout, error)
+	// GetChampionCards returns all Champion cards
+	GetChampionCards(champID, langCode string) ([]models.ChampionCard, error)
+	// GetBountyItems returns daily Bounty Item history for the past 6 months.
+	GetBountyItems() ([]models.BountyItem, error)
 }

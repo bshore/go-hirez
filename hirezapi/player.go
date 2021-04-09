@@ -23,11 +23,75 @@ func (a *APIClient) GetPlayer(player string) ([]models.Player, error) {
 	return output, err
 }
 
+// GetPlayer returns league and other high level data for a particular player.
+func (a *APIClient) GetPlayerByPlatform(player, portalID string) ([]models.Player, error) {
+	path := fmt.Sprintf("%v/%v", player, portalID)
+	resp, err := a.makeRequest("getplayer", path)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+	var output []models.Player
+	err = a.unmarshalResponse(body, &output)
+	return output, err
+}
+
+// GetPlayerIDByName returns a list of Hi-Rez PlayerID values for the particular player
+func (a *APIClient) GetPlayerIDByName(player string) ([]models.PlayerIDInfo, error) {
+	resp, err := a.makeRequest("getplayeridbyname", player)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+	var output []models.PlayerIDInfo
+	err = a.unmarshalResponse(body, &output)
+	return output, err
+}
+
+// GetPlayerIDByPortalUserID returns a list of Hi-Rez PlayerID values for portalID/portalUserID combo
+func (a *APIClient) GetPlayerIDByPortalUserID(portalID, portalUserID string) ([]models.PlayerIDInfo, error) {
+	path := fmt.Sprintf("%s/%s", portalID, portalUserID)
+	resp, err := a.makeRequest("getplayeridbyportaluserid", path)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+	var output []models.PlayerIDInfo
+	err = a.unmarshalResponse(body, &output)
+	return output, err
+}
+
+// GetPlayerIDsByGamertag returns a list of Hi-Rez PlayerID values for a portalID/gamerTag combo
+func (a *APIClient) GetPlayerIDsByGamertag(portalID, gamerTag string) ([]models.PlayerIDInfo, error) {
+	path := fmt.Sprintf("%s/%s", portalID, gamerTag)
+	resp, err := a.makeRequest("getplayeridsbygamertag", path)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+	var output []models.PlayerIDInfo
+	err = a.unmarshalResponse(body, &output)
+	return output, err
+}
+
 // GetFriends returns Smite Usernames of each of the player's friends. [PC Only]
 func (a *APIClient) GetFriends(player string) ([]models.Friend, error) {
-	if IsConsolePath(a.BasePath) {
-		return nil, fmt.Errorf("GetFriends() %s", isConsoleErrMsg)
-	}
 	resp, err := a.makeRequest("getfriends", player)
 	if err != nil {
 		return nil, err
@@ -92,7 +156,7 @@ func (a *APIClient) GetPlayerStatus(player string) ([]models.PlayerStatus, error
 
 // GetPlayerAchievements returns select achievement totals.
 func (a *APIClient) GetPlayerAchievements(playerID string) (*models.PlayerAchievements, error) {
-	if IsNotSmitePath(a.BasePath) {
+	if !IsSmitePath(a.BasePath) {
 		return nil, fmt.Errorf("GetPlayerAchievements() %s", notSmiteErrMsg)
 	}
 	resp, err := a.makeRequest("getplayerachievements", playerID)
@@ -143,7 +207,7 @@ func (a *APIClient) GetTeamPlayers(clanID string) ([]models.TeamPlayer, error) {
 
 // SearchTeams returns high level info for Clan names containing search term.
 func (a *APIClient) SearchTeams(searchTeam string) ([]models.TeamDetail, error) {
-	if IsNotSmitePath(a.BasePath) {
+	if !IsSmitePath(a.BasePath) {
 		return nil, fmt.Errorf("SearchTeams() %s", notSmiteErrMsg)
 	}
 	resp, err := a.makeRequest("searchteams", searchTeam)
@@ -156,6 +220,22 @@ func (a *APIClient) SearchTeams(searchTeam string) ([]models.TeamDetail, error) 
 		return nil, err
 	}
 	var output []models.TeamDetail
+	err = a.unmarshalResponse(body, &output)
+	return output, err
+}
+
+// SearchPlayers returns playerID values for all names and/or gamerTags containing searchPlayer
+func (a *APIClient) SearchPlayers(searchPlayer string) ([]models.PlayerIDInfo, error) {
+	resp, err := a.makeRequest("searchplayers", searchPlayer)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+	var output []models.PlayerIDInfo
 	err = a.unmarshalResponse(body, &output)
 	return output, err
 }

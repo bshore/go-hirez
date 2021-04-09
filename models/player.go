@@ -1,51 +1,68 @@
 package models
 
 type Player struct {
-	ActivePlayerID             int64            `json:"ActivePlayerId"`
-	AvatarURL                  string           `json:"Avatar_URL"`
-	CreatedDatetime            string           `json:"Created_Datetime"`
-	HoursPlayed                int64            `json:"HoursPlayed"`
-	ID                         int64            `json:"Id"`
-	LastLoginDatetime          string           `json:"Last_Login_Datetime"`
-	Leaves                     int64            `json:"Leaves"`
-	Level                      int64            `json:"Level"`
-	Losses                     int64            `json:"Losses"`
-	MasteryLevel               int              `json:"MasteryLevel"`
-	MergedPlayers              []MergedPlayer   `json:"MergedPlayers"`
-	MinutesPlayed              int64            `json:"MinutesPlayed"`
-	Name                       string           `json:"Name"`
-	PersonalStatusMessage      string           `json:"Personal_Status_Message"`
-	Platform                   string           `json:"Platform"`
-	RankStatConquest           int              `json:"Rank_Stat_Conquest"`
-	RankStatConquestController int              `json:"Rank_Stat_Conquest_Controller"`
-	RankStatDuel               int              `json:"Rank_Stat_Duel"`
-	RankStatDuelController     int              `json:"Rank_Stat_Duel_Controller"`
-	RankStatJoust              int              `json:"Rank_Stat_Joust"`
-	RankStatJoustController    int              `json:"Rank_Stat_Joust_Controller"`
-	RankedConquest             PlayerRankedInfo `json:"RankedConquest"`
-	RankConquestController     PlayerRankedInfo `json:"RankedConquestController"`
-	RankDuel                   PlayerRankedInfo `json:"RankedDuel"`
-	RankDuelController         PlayerRankedInfo `json:"RankedDuelController"`
-	RankJoust                  PlayerRankedInfo `json:"RankedJoust"`
-	RankJoustController        PlayerRankedInfo `json:"RankedJoustController"`
-	Region                     string           `json:"Region"`
-	TeamID                     int64            `json:"TeamId"`
-	TeamName                   string           `json:"Team_Name"`
-	TierConquest               int              `json:"Tier_Conquest"`
-	TierDuel                   int              `json:"Tier_Duel"`
-	TierJoust                  int              `json:"Tier_Joust"`
-	TotalAchievements          int64            `json:"Total_Achievements"`
-	TotalWorshippers           int64            `json:"Total_Worshippers"`
-	Wins                       int64            `json:"Wins"`
-	HZGamerTag                 string           `json:"hz_gamer_tag"`
-	HZPlayerName               string           `json:"hz_player_name"`
-	RetMsg                     string           `json:"ret_msg"`
+	ActivePlayerID               int64            `json:"ActivePlayerId"`
+	AvatarID                     int64            `json:"AvatarID"`
+	AvatarURL                    string           `json:"Avatar_URL"`
+	CreatedDatetime              string           `json:"Created_Datetime"`
+	HoursPlayed                  int64            `json:"HoursPlayed"`
+	ID                           int64            `json:"Id"`
+	LastLoginDatetime            string           `json:"Last_Login_Datetime"`
+	Leaves                       int64            `json:"Leaves"`
+	Level                        int64            `json:"Level"`
+	LoadingFrame                 string           `json:"LoadingFrame"`
+	Losses                       int64            `json:"Losses"`
+	MasteryLevel                 int              `json:"MasteryLevel"`
+	MergedPlayers                []MergedPlayer   `json:"MergedPlayers"`
+	MinutesPlayed                int64            `json:"MinutesPlayed"`
+	Name                         string           `json:"Name"`
+	PersonalStatusMessage        string           `json:"Personal_Status_Message"`
+	Platform                     string           `json:"Platform"`
+	RankedStatConquest           int              `json:"Rank_Stat_Conquest"`
+	RankedStatConquestController int              `json:"Rank_Stat_Conquest_Controller"`
+	RankedStatDuel               int              `json:"Rank_Stat_Duel"`
+	RankedStatDuelController     int              `json:"Rank_Stat_Duel_Controller"`
+	RankedStatJoust              int              `json:"Rank_Stat_Joust"`
+	RankedStatJoustController    int              `json:"Rank_Stat_Joust_Controller"`
+	RankedConquest               PlayerRankedInfo `json:"RankedConquest"`
+	RankedConquestController     PlayerRankedInfo `json:"RankedConquestController"`
+	RankedDuel                   PlayerRankedInfo `json:"RankedDuel"`
+	RankedDuelController         PlayerRankedInfo `json:"RankedDuelController"`
+	RankedJoust                  PlayerRankedInfo `json:"RankedJoust"`
+	RankedJoustController        PlayerRankedInfo `json:"RankedJoustController"`
+	RankedKBM                    PlayerRankedInfo `json:"RankedKBM"`
+	Region                       string           `json:"Region"`
+	TeamID                       int64            `json:"TeamId"`
+	TeamName                     string           `json:"Team_Name"`
+	TierConquest                 int              `json:"Tier_Conquest"`
+	TierDuel                     int              `json:"Tier_Duel"`
+	TierJoust                    int              `json:"Tier_Joust"`
+	TierRankedController         int              `json:"Tier_RankedController"`
+	TierRankedKBM                int              `json:"Tier_RankedKBM"`
+	Title                        string           `json:"Title"`
+	TotalAchievements            int64            `json:"Total_Achievements"`
+	TotalWorshippers             int64            `json:"Total_Worshippers"`
+	TotalXP                      int64            `json:"Total_XP"`
+	Wins                         int64            `json:"Wins"`
+	HZGamerTag                   string           `json:"hz_gamer_tag"`
+	HZPlayerName                 string           `json:"hz_player_name"`
+	RetMsg                       string           `json:"ret_msg"`
 }
 
 type MergedPlayer struct {
 	MergeDatetime string `json:"merge_datetime"`
 	PlayerID      string `json:"playerId"`
 	PortalID      string `json:"portalId"`
+}
+
+type PlayerIDInfo struct {
+	Name         string `json:"Name,omitempty"`
+	HZPlayerName string `json:"hz_player_name,omitempty"`
+	PlayerID     int64  `json:"player_id"`
+	Portal       string `json:"portal"`
+	PortalID     string `json:"portal_id"`
+	PrivacyFlag  string `json:"privacy_flag"`
+	RetMsg       string `json:"ret_msg"`
 }
 
 type PlayerRankedInfo struct {
@@ -131,14 +148,14 @@ type PlayerAchievements struct {
 
 type TeamDetail struct {
 	Founder   string `json:"Founder"`
-	FounderID string `json:"FounderId,omitempty"`
-	Losses    int64  `json:"Losses,omitempty"`
+	FounderID string `json:"FounderId"`
+	Losses    int64  `json:"Losses"`
 	Name      string `json:"Name"`
 	Players   int64  `json:"Players"`
-	Rating    int64  `json:"Rating,omitempty"`
+	Rating    int64  `json:"Rating"`
 	Tag       string `json:"Tag"`
 	TeamID    int64  `json:"TeamId"`
-	Wins      int64  `json:"Wins,omitempty"`
+	Wins      int64  `json:"Wins"`
 	RetMsg    string `json:"ret_msg"`
 }
 

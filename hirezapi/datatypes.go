@@ -5,21 +5,13 @@ type URL int
 
 const (
 	URLSmitePC URL = iota
-	URLSmiteXBOX
-	URLSmitePS4
 	URLPaladinsPC
-	URLPaladinsXBOX
-	URLPaladinsPS4
 )
 
 func (u URL) String() string {
 	return [...]string{
 		"http://api.smitegame.com/smiteapi.svc",
-		"http://api.xbox.smitegame.com/smiteapi.svc",
-		"http://api.ps4.smitegame.com/smiteapi.svc",
 		"http://api.paladins.com/paladinsapi.svc",
-		"http://api.xbox.paladins.com/paladinsapi.svc",
-		"http://api.ps4.paladins.com/paladinsapi.svc",
 	}[u]
 }
 
@@ -63,6 +55,9 @@ const (
 
 	// yyyyMMddHHmmss
 	TimeFormat string = "20060102150405"
+
+	// PortalIDs (Gaming Platforms)
+	HiRez, Steam, PS4, XBOX, Switch, Discord, Epic string = "1", "5", "9", "10", "22", "25", "28"
 
 	// Language Codes
 	English string = "1"

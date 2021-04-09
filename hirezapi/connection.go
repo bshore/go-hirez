@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 
 	"github.com/bshore/go-hirez/models"
@@ -23,16 +22,16 @@ func (a *APIClient) Ping() error {
 // CreateSession is a required step to Authenticate the developerId/signature for further API use.
 func (a *APIClient) CreateSession() error {
 	sig, stamp := a.generateSignature("createsession")
-	url := fmt.Sprintf(
+	path := fmt.Sprintf(
 		"%s/%s%s/%s/%s/%s",
-		URLSmitePC.String(), // Smite PC is the session management endpoint.
+		a.BasePath,
 		"createsession",
-		ResponseTypeJSON.String(), // Create session using json
+		ResponseTypeJSON.String(),
 		a.DeveloperID,
 		sig,
 		stamp,
 	)
-	resp, err := http.Get(url)
+	resp, err := http.Get(path)
 	if err != nil {
 		return fmt.Errorf("error creating session: %v", err)
 	}
@@ -44,7 +43,6 @@ func (a *APIClient) CreateSession() error {
 	}
 	err = json.Unmarshal(body, sess)
 	if err != nil {
-		log.Print(string(body))
 		return fmt.Errorf("error unmarshaling response: %v", err)
 	}
 	if sess.RetMsg != "Approved" {
@@ -101,9 +99,10 @@ func (a *APIClient) GetDataUsed() ([]models.DataUsed, error) {
 	return output, err
 }
 
-// ChangeBasePath modifies the base path if you want to query a different platform
+// ChangeBasePath modifies the base path if you want to query a different platform.
 func (a *APIClient) ChangeBasePath(url MustBeURL) {
 	a.BasePath = url.String()
+	a.CreateSession()
 }
 
 // ChangeResponseType modifies the response type if you want to switch between JSON and XML

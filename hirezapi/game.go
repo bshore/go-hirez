@@ -9,7 +9,7 @@ import (
 
 // GetGods returns all Gods and their various attributes.
 func (a *APIClient) GetGods(langCode string) ([]models.God, error) {
-	if IsNotSmitePath(a.BasePath) {
+	if !IsSmitePath(a.BasePath) {
 		return nil, fmt.Errorf("GetGods() %s", notSmiteErrMsg)
 	}
 	if langCode == "" {
@@ -31,7 +31,7 @@ func (a *APIClient) GetGods(langCode string) ([]models.God, error) {
 
 // GetGodSkins returns all available skins for a particular God.
 func (a *APIClient) GetGodSkins(godID int64, langCode string) ([]models.GodSkin, error) {
-	if IsNotSmitePath(a.BasePath) {
+	if !IsSmitePath(a.BasePath) {
 		return nil, fmt.Errorf("GetGodSkins() %s", notSmiteErrMsg)
 	}
 	if langCode == "" {
@@ -54,7 +54,7 @@ func (a *APIClient) GetGodSkins(godID int64, langCode string) ([]models.GodSkin,
 
 // GetGodRecommendedItems returns the recommended items for a particular God.
 func (a *APIClient) GetGodRecommendedItems(godID int64, langCode string) ([]models.GodRecommendedItem, error) {
-	if IsNotSmitePath(a.BasePath) {
+	if !IsSmitePath(a.BasePath) {
 		return nil, fmt.Errorf("GetGodRecommendedItems() %s", notSmiteErrMsg)
 	}
 	if langCode == "" {

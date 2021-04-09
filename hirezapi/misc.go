@@ -3,7 +3,6 @@ package hirezapi
 import (
 	"fmt"
 	"io/ioutil"
-	"os"
 
 	"github.com/bshore/go-hirez/models"
 )
@@ -26,7 +25,7 @@ func (a *APIClient) GetESportsProLeagueDetails() ([]models.ESportsProLeagueDetai
 
 // GetGodLeaderboard returns the current season's leaderboard for a god/queue. [SmiteAPI: only queues 440, 450, 451]
 func (a *APIClient) GetGodLeaderboard(godID, queueID string) ([]models.GodLeaderboardEntry, error) {
-	if IsNotSmitePath(a.BasePath) {
+	if !IsSmitePath(a.BasePath) {
 		return nil, fmt.Errorf("GetGodLeaderboard() %s", notSmiteErrMsg)
 	}
 	if IsNotRanked(queueID) {
@@ -48,31 +47,31 @@ func (a *APIClient) GetGodLeaderboard(godID, queueID string) ([]models.GodLeader
 }
 
 // GetLeagueLeaderboard returns the top players for a particular league.
-// I HAVE NO IDEA WHAT'S GOING ON WITH THIS ENDPOINT, IT ALWAYS RETURNS `[]`
-func (a *APIClient) GetLeagueLeaderboard(queueID, tier, season string) error {
-	if IsNotSmitePath(a.BasePath) {
-		return fmt.Errorf("GetLeageLeaderboard() %s", notSmiteErrMsg)
+func (a *APIClient) GetLeagueLeaderboard(queueID, tier, round string) ([]models.LeagueLeaderboardEntry, error) {
+	if !IsSmitePath(a.BasePath) {
+		return nil, fmt.Errorf("GetLeageLeaderboard() %s", notSmiteErrMsg)
 	}
 	if IsNotRanked(queueID) {
-		return fmt.Errorf("GetLeagueLeaderboard() %s", notRankedErrMsg)
+		return nil, fmt.Errorf("GetLeagueLeaderboard() %s", notRankedErrMsg)
 	}
-	path := fmt.Sprintf("%s/%s/%s", queueID, tier, season)
+	path := fmt.Sprintf("%s/%s/%s", queueID, tier, round)
 	resp, err := a.makeRequest("getleagueleaderboard", path)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	err = os.WriteFile("output.json", body, 0644)
-	return err
+	var output []models.LeagueLeaderboardEntry
+	err = a.unmarshalResponse(body, &output)
+	return output, err
 }
 
 // GetLeageSeasons returns a list of seasons for a match queue.
 func (a *APIClient) GetLeagueSeasons(queueID string) ([]models.Season, error) {
-	if IsNotSmitePath(a.BasePath) {
+	if !IsSmitePath(a.BasePath) {
 		return nil, fmt.Errorf("GetLeageSeasons() %s", notSmiteErrMsg)
 	}
 	if IsNotRanked(queueID) {

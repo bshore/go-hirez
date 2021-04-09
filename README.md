@@ -14,7 +14,8 @@ func main() {
   devID := "yourDevID" // os.Getenv("MY_SECRET_DEV_ID")
   authKey := "yourAuthKey" // os.Getenv("MY_SECRET_AUTH_KEY")
 
-  // NewWithSession is like New() but it also tests connectivity with `Ping()` and calls `CreateSession()` for you. This could be useful if you intend to query the API on some sort of schedule.
+  // NewWithSession is like New() but it also tests connectivity with `Ping()` and calls `CreateSession()`
+  // for you. This could be useful if you intend to query the API on some sort of schedule.
   client, err := hirezapi.NewWithSession(devID, authKey, hirezapi.URLSmitePC, hirezapi.ResponseTypeJSON)
 
   // New initializes a HiRezAPI instance with devID, auth key, url, and response type.
@@ -33,11 +34,6 @@ func main() {
 }
 ```
 
-## Notes/TODOs
+## Notes
 
-- Written with Smite & JSON responses in mind, the `xml:""` struct tags are currently missing and has not been tested.
-- There's some inconsistent validation across methods regarding Smite/Paladins/Platform specific API calls, and I'd like to iron that out.
-- The API endpoint for `GetLeagueLeaderboard` is giving me some trouble...
-  - Seems to always return `[]` no matter what I pass it.
-- The API endpoint for `GetPlayerIDInfoForXBOXAndSwitch` is giving me some trouble...
-  - Trying to get a sample XBOX gamertag with `GetChampionLeaderboard` but the request `404`s when using the Paladins XBOX endpoint.
+- Written with JSON responses in mind, the XML response seems a little more involved, so XML isn't supported at this time.
