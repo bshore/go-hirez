@@ -4,7 +4,6 @@ import "github.com/bshore/go-hirez/models"
 
 // HiRezAPI is a collection of endpoint methods for interacting with the Hi-Rez API
 // Definitions here are taken from the publicly available "Smite API Developer Guide" PDF
-// For the purpose of this project, only Smite-related API endpoints are defined
 type HiRezAPI interface {
 	// ===== Connectivity =====
 	// Ping is a quick way of validating access to the Hi-Rez API.
