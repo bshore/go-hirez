@@ -10,6 +10,9 @@ import (
 
 // GetPlayerBatch returns league and other high level data for a particular list of players. [20 max]
 func (a *APIClient) GetPlayerBatch(playerIDs []string) ([]models.Player, error) {
+	if len(playerIDs) > 20 {
+		return nil, fmt.Errorf("per API docs, the list of playerIDs should contain no more than 20")
+	}
 	if !IsPaladinsPath(a.BasePath) {
 		return nil, fmt.Errorf("GetPlayerBatch() %s", notPaladinsErrMsg)
 	}
