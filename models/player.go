@@ -58,7 +58,7 @@ type MergedPlayer struct {
 type PlayerIDInfo struct {
 	Name         string `json:"Name,omitempty"`
 	HZPlayerName string `json:"hz_player_name,omitempty"`
-	PlayerID     int64  `json:"player_id"`
+	PlayerID     string `json:"player_id"`
 	Portal       string `json:"portal"`
 	PortalID     string `json:"portal_id"`
 	PrivacyFlag  string `json:"privacy_flag"`
