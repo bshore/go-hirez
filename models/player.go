@@ -18,12 +18,12 @@ type Player struct {
 	Name                         string           `json:"Name"`
 	PersonalStatusMessage        string           `json:"Personal_Status_Message"`
 	Platform                     string           `json:"Platform"`
-	RankedStatConquest           int              `json:"Rank_Stat_Conquest"`
-	RankedStatConquestController int              `json:"Rank_Stat_Conquest_Controller"`
-	RankedStatDuel               int              `json:"Rank_Stat_Duel"`
-	RankedStatDuelController     int              `json:"Rank_Stat_Duel_Controller"`
-	RankedStatJoust              int              `json:"Rank_Stat_Joust"`
-	RankedStatJoustController    int              `json:"Rank_Stat_Joust_Controller"`
+	RankedStatConquest           float32          `json:"Rank_Stat_Conquest"`
+	RankedStatConquestController float32          `json:"Rank_Stat_Conquest_Controller"`
+	RankedStatDuel               float32          `json:"Rank_Stat_Duel"`
+	RankedStatDuelController     float32          `json:"Rank_Stat_Duel_Controller"`
+	RankedStatJoust              float32          `json:"Rank_Stat_Joust"`
+	RankedStatJoustController    float32          `json:"Rank_Stat_Joust_Controller"`
 	RankedConquest               PlayerRankedInfo `json:"RankedConquest"`
 	RankedConquestController     PlayerRankedInfo `json:"RankedConquestController"`
 	RankedDuel                   PlayerRankedInfo `json:"RankedDuel"`
@@ -66,20 +66,20 @@ type PlayerIDInfo struct {
 }
 
 type PlayerRankedInfo struct {
-	Leaves       int64  `json:"Leaves"`
-	Losses       int64  `json:"Losses"`
-	Name         string `json:"Name"`
-	Points       int64  `json:"Points"`
-	PrevRank     int64  `json:"PrevRank"`
-	Rank         int64  `json:"Rank"`
-	RankStat     int64  `json:"Rank_Stat"`
-	RankVariance int64  `json:"Rank_Variance"`
-	Season       int64  `json:"Season"`
-	Tier         int64  `json:"Tier"`
-	Trend        int64  `json:"Trend"`
-	Wins         int64  `json:"Wins"`
-	PlayerID     string `json:"player_id"`
-	RetMsg       string `json:"ret_msg"`
+	Leaves       int64   `json:"Leaves"`
+	Losses       int64   `json:"Losses"`
+	Name         string  `json:"Name"`
+	Points       int64   `json:"Points"`
+	PrevRank     int64   `json:"PrevRank"`
+	Rank         int64   `json:"Rank"`
+	RankStat     float32 `json:"Rank_Stat"`
+	RankVariance int64   `json:"Rank_Variance"`
+	Season       int64   `json:"Season"`
+	Tier         int64   `json:"Tier"`
+	Trend        int64   `json:"Trend"`
+	Wins         int64   `json:"Wins"`
+	PlayerID     string  `json:"player_id"`
+	RetMsg       string  `json:"ret_msg"`
 }
 
 type Friend struct {
