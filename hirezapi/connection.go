@@ -13,8 +13,11 @@ import (
 func (a *APIClient) Ping() error {
 	url := fmt.Sprintf("%s/%s%s", a.BasePath, "ping", a.RespType)
 	resp, err := http.Get(url)
-	if resp.StatusCode != http.StatusOK {
+	if err != nil {
 		return err
+	}
+	if resp.StatusCode != http.StatusOK {
+		return fmt.Errorf("error: Ping() did not return status 200: %d, Response: %s", resp.StatusCode, resp.Body)
 	}
 	return nil
 }
