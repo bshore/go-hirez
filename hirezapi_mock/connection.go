@@ -1,4 +1,4 @@
-package hirezapi
+package mock
 
 import (
 	"encoding/json"
@@ -11,14 +11,6 @@ import (
 
 // Ping is a quick way of validating access to the Hi-Rez API.
 func (a *APIClient) Ping() error {
-	url := fmt.Sprintf("%s/%s%s", a.BasePath, "ping", a.RespType)
-	resp, err := http.Get(url)
-	if err != nil {
-		return err
-	}
-	if resp.StatusCode != http.StatusOK {
-		return fmt.Errorf("error: Ping() did not return status 200: %d, Response: %s", resp.StatusCode, resp.Body)
-	}
 	return nil
 }
 
@@ -58,47 +50,31 @@ func (a *APIClient) CreateSession() error {
 
 // TestSession is a means of validating that a session is established.
 func (a *APIClient) TestSession() (string, error) {
-	resp, err := a.makeRequest("testsession", "")
-	if err != nil {
-		return "", err
+	if a.SessionID != "" && a.SessionStamp != "" {
+		return "session ok", nil
 	}
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return "", err
-	}
-	return string(body), nil
+	return "", fmt.Errorf("session not initialized")
 }
 
 // GetHirezServerStatus returns UP/DOWN status for the primary game/platform environments. Data is cached once a minute.
 func (a *APIClient) GetHiRezServerStatus() ([]models.HiRezServerStatus, error) {
-	resp, err := a.makeRequest("gethirezserverstatus", "")
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	resp, err := a.makeRequest("gethirezserverstatus", "", []models.HiRezServerStatus{})
 	if err != nil {
 		return nil, err
 	}
 	var output []models.HiRezServerStatus
-	err = a.unmarshalResponse(body, &output)
+	err = a.unmarshalResponse(resp, &output)
 	return output, err
 }
 
 // GetDataUsed returns API Developer daily usage limits and the current status against those limits.
 func (a *APIClient) GetDataUsed() ([]models.DataUsed, error) {
-	resp, err := a.makeRequest("getdataused", "")
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	resp, err := a.makeRequest("getdataused", "", []models.DataUsed{})
 	if err != nil {
 		return nil, err
 	}
 	var output []models.DataUsed
-	err = a.unmarshalResponse(body, &output)
+	err = a.unmarshalResponse(resp, &output)
 	return output, err
 }
 

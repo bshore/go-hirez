@@ -1,8 +1,7 @@
-package hirezapi
+package mock
 
 import (
 	"fmt"
-	"io/ioutil"
 
 	"github.com/bshore/go-hirez/models"
 	"github.com/bshore/go-hirez/utils"
@@ -16,17 +15,12 @@ func (a *APIClient) GetGods(langCode string) ([]models.God, error) {
 	if langCode == "" {
 		langCode = models.English
 	}
-	resp, err := a.makeRequest("getgods", langCode)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	resp, err := a.makeRequest("getgods", langCode, []models.God{})
 	if err != nil {
 		return nil, err
 	}
 	var output []models.God
-	err = a.unmarshalResponse(body, &output)
+	err = a.unmarshalResponse(resp, &output)
 	return output, err
 }
 
@@ -39,17 +33,12 @@ func (a *APIClient) GetGodSkins(godID int64, langCode string) ([]models.GodSkin,
 		langCode = models.English
 	}
 	path := fmt.Sprintf("%d/%s", godID, langCode)
-	resp, err := a.makeRequest("getgodskins", path)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	resp, err := a.makeRequest("getgodskins", path, []models.GodSkin{})
 	if err != nil {
 		return nil, err
 	}
 	var output []models.GodSkin
-	err = a.unmarshalResponse(body, &output)
+	err = a.unmarshalResponse(resp, &output)
 	return output, err
 }
 
@@ -62,17 +51,12 @@ func (a *APIClient) GetGodRecommendedItems(godID int64, langCode string) ([]mode
 		langCode = models.English
 	}
 	path := fmt.Sprintf("%d/%s", godID, langCode)
-	resp, err := a.makeRequest("getgodrecommendeditems", path)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	resp, err := a.makeRequest("getgodrecommendeditems", path, models.GodRecommendedItem{})
 	if err != nil {
 		return nil, err
 	}
 	var output []models.GodRecommendedItem
-	err = a.unmarshalResponse(body, &output)
+	err = a.unmarshalResponse(resp, &output)
 	return output, err
 }
 
@@ -81,16 +65,11 @@ func (a *APIClient) GetItems(langCode string) ([]models.Item, error) {
 	if langCode == "" {
 		langCode = models.English
 	}
-	resp, err := a.makeRequest("getitems", langCode)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	resp, err := a.makeRequest("getitems", langCode, []models.Item{})
 	if err != nil {
 		return nil, err
 	}
 	var output []models.Item
-	err = a.unmarshalResponse(body, &output)
+	err = a.unmarshalResponse(resp, &output)
 	return output, err
 }

@@ -1,4 +1,4 @@
-package hirezapi
+package models
 
 // URL determinmes the baseURL to use when calling Hi-Rez API endpoints
 type URL int

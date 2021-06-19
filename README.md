@@ -2,12 +2,39 @@
 
 `go-hirez` is a Golang API Library for the Hi-Rez (Smite) developer API [PDF reference](https://docs.google.com/document/d/1OFS-3ocSx-1Rvg4afAnEHlT3917MAK_6eJTR6rzr-BM/edit)
 
-## Getting Started
+## Getting Started with Mocks
+
+`go-hirez` offers a mocked version of the API that will generate response output.
+You can use the mocked version of the API to test functionality without adding to your daily API limit while developing.
 
 ```go
 package main
 
-import "github.com/bshore/go-hirez/hirezapi"
+import (
+  "github.com/bshore/go-hirez/mock"
+  "github.com/bshore/go-hirez/models"
+)
+
+func main() {
+  client, err := mock.New("1234", "5678", models.URLSmitePC, models.ResponseTypeJSON)
+  client.StartSession()
+
+  client, err := mock.NewWithSession("1234", "5678", models.URLSmitePC, models.ResponseTypeJSON)
+
+  // Disable logging if you want
+  client.NoLogging()
+}
+```
+
+## Getting Started For Real
+
+```go
+package main
+
+import (
+  "github.com/bshore/go-hirez/hirezapi"
+  "github.com/bshore/go-hirez/models"
+)
 
 func main() {
   // Recommend storing these as environment variables or secrets
@@ -16,11 +43,11 @@ func main() {
 
   // NewWithSession is like New() but it also tests connectivity with `Ping()` and calls `CreateSession()`
   // for you. This could be useful if you intend to query the API on some sort of schedule.
-  client, err := hirezapi.NewWithSession(devID, authKey, hirezapi.URLSmitePC, hirezapi.ResponseTypeJSON)
+  client, err := hirezapi.NewWithSession(devID, authKey, models.URLSmitePC, models.ResponseTypeJSON)
 
   // New initializes a HiRezAPI instance with devID, auth key, url, and response type.
   // Note: You will need to call `client.CreateSession()` on your own
-  client, err := hirezapi.New(devID, authKey, hirezapi.URLSmitePC, hirezapi.ResponseTypeJSON)
+  client, err := hirezapi.New(devID, authKey, models.URLSmitePC, models.ResponseTypeJSON)
 
   // Direct struct initialization is supported, though the constructor methods are recommended since
   // they avoid potential fail cases like typos in the BasePath or an unsuppored RespType

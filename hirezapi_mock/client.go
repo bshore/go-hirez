@@ -1,47 +1,53 @@
-package hirezapi
+package mock
 
 import (
+	"bytes"
 	"crypto/md5"
 	"encoding/json"
 	"encoding/xml"
 	"errors"
 	"fmt"
-	"net/http"
+	"log"
 	"time"
 
+	"github.com/bshore/go-hirez/hirezapi"
 	"github.com/bshore/go-hirez/models"
+	"github.com/bshore/go-hirez/utils"
 )
 
-// APIClient is the implementation of the HiRezAPI interface.
 type APIClient struct {
-	DeveloperID string
-	AuthKey string
-	BasePath string
-	RespType string
-	SessionID string
+	DeveloperID  string
+	AuthKey      string
+	BasePath     string
+	RespType     string
+	SessionID    string
 	SessionStamp string
+	Logger 			 *log.Logger
 }
 
 // New initializes a HiRezAPI instance with devID, auth key, url, and response type.
-func New(devID, key string, url models.MustBeURL, respType models.MustBeResponseType) (HiRezAPI, error) {
+func New(devID, key string, url models.MustBeURL, respType models.MustBeResponseType) (hirezapi.HiRezAPI, error) {
 	if devID == "" {
 		return nil, errors.New(`must provide a developerID (eg, 1004)`)
 	}
 	if key == "" {
 		return nil, errors.New(`must provide an auth key (eg, 23DF3C7E9BD14D84BF892AD206B6755C)`)
 	}
+	var buf bytes.Buffer
+	logger := log.New(&buf, "", log.Lshortfile)
 	api := &APIClient{
-		BasePath: url.String(),
-		RespType: respType.String(),
+		BasePath:    url.String(),
+		RespType:    respType.String(),
 		DeveloperID: devID,
-		AuthKey: key,
+		AuthKey:     key,
+		Logger: logger,
 	}
 	return api, nil
 }
 
 // NewWithSession is like New() but it also tests connectivity with Ping and
 // initializes a session for you.
-func NewWithSession(devID, key string, url models.URL, respType models.MustBeResponseType) (HiRezAPI, error) {
+func NewWithSession(devID, key string, url models.URL, respType models.MustBeResponseType) (hirezapi.HiRezAPI, error) {
 	api, err := New(devID, key, url, respType)
 	if err != nil {
 		return nil, err
@@ -57,13 +63,20 @@ func NewWithSession(devID, key string, url models.URL, respType models.MustBeRes
 	return api, nil
 }
 
-func (a *APIClient) makeRequest(methodName, path string) (*http.Response, error) {
+func (a *APIClient) NoLogging() {
+	a.Logger = nil
+}
+
+func (a *APIClient) makeRequest(methodName, path string, desiredOutput interface{}) ([]byte, error) {
 	signature, timestamp := a.generateSignature(methodName)
 	apiURL := fmt.Sprintf("%s/%s%s/%s/%s/%s/%s", a.BasePath, methodName, a.RespType, a.DeveloperID, signature, a.SessionID, timestamp)
 	if path != "" {
 		apiURL = fmt.Sprintf("%s/%s", apiURL, path)
 	}
-	return http.Get(apiURL)
+	if a.Logger != nil {
+		a.Logger.Printf("\nmocking http request: %s\n", apiURL)
+	}
+	return utils.GenerateDesiredOutput(desiredOutput)
 }
 
 // generateSignature takes in the requested methodName and generates an md5 hashed signature for sending a request

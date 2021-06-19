@@ -17,9 +17,9 @@ type HiRezAPI interface {
 	// GetDataUsed returns API Developer daily usage limits and the current status against those limits.
 	GetDataUsed() ([]models.DataUsed, error)
 	// ChangeBasePath modifies the base path if you want to query a different platform
-	ChangeBasePath(url MustBeURL)
+	ChangeBasePath(url models.MustBeURL)
 	// ChangeResponseType modifies the response type if you want to switch between JSON and XML
-	ChangeResponseType(respType MustBeResponseType)
+	ChangeResponseType(respType models.MustBeResponseType)
 
 	// ===== Player Related =====
 	// GetPlayer returns league and other high level data for a particular player.
