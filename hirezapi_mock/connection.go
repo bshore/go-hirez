@@ -11,6 +11,9 @@ import (
 
 // Ping is a quick way of validating access to the Hi-Rez API.
 func (a *APIClient) Ping() error {
+	if a.Logger != nil {
+		a.Logger.Println("Ping() has been called")
+	}
 	return nil
 }
 

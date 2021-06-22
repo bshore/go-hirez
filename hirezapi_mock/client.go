@@ -1,7 +1,6 @@
 package mock
 
 import (
-	"bytes"
 	"crypto/md5"
 	"encoding/json"
 	"encoding/xml"
@@ -33,14 +32,12 @@ func New(devID, key string, url models.MustBeURL, respType models.MustBeResponse
 	if key == "" {
 		return nil, errors.New(`must provide an auth key (eg, 23DF3C7E9BD14D84BF892AD206B6755C)`)
 	}
-	var buf bytes.Buffer
-	logger := log.New(&buf, "", log.Lshortfile)
 	api := &APIClient{
 		BasePath:    url.String(),
 		RespType:    respType.String(),
 		DeveloperID: devID,
 		AuthKey:     key,
-		Logger: logger,
+		Logger:      log.Default(),
 	}
 	return api, nil
 }
@@ -74,8 +71,9 @@ func (a *APIClient) makeRequest(methodName, path string, desiredOutput interface
 		apiURL = fmt.Sprintf("%s/%s", apiURL, path)
 	}
 	if a.Logger != nil {
-		a.Logger.Printf("\nmocking http request: %s\n", apiURL)
+		a.Logger.Printf("Mocked Request: %s\n", apiURL)
 	}
+	a.Logger.Printf("Calling GenerateDesiredOutput with: %#v\n", desiredOutput)
 	return utils.GenerateDesiredOutput(desiredOutput)
 }
 

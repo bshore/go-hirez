@@ -11,7 +11,7 @@ You can use the mocked version of the API to test functionality without adding t
 package main
 
 import (
-  "github.com/bshore/go-hirez/mock"
+  mock "github.com/bshore/go-hirez/hirezapi_mock"
   "github.com/bshore/go-hirez/models"
 )
 
