@@ -73,7 +73,6 @@ func (a *APIClient) makeRequest(methodName, path string, desiredOutput interface
 	if a.Logger != nil {
 		a.Logger.Printf("Mocked Request: %s\n", apiURL)
 	}
-	a.Logger.Printf("Calling GenerateDesiredOutput with: %#v\n", desiredOutput)
 	return utils.GenerateDesiredOutput(desiredOutput)
 }
 

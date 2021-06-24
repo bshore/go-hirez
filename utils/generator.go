@@ -1,138 +1,181 @@
 package utils
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"reflect"
 )
 
+// TODO: Slice of Slice isn't working
+
 const (
-	aSlice = "slice"
-	aSliceOfSlice = "sliceSlice"
+	aValue = "value"
 	aMap = "map"
+	aSlice = "slice"
+	aSliceMap = "sliceMap"
+	aSliceOfSliceMap = "sliceSliceMap"
 )
 
 type generation struct {
 	// outputType is here to track what we detect the output should be
-	// it should be one of
-	// slice of map (struct)
-	// slice of slice of map (struct)
-	// or just a map (struct)
+	// it should be one of:
+	// a map
+	// a slice
+	// slice of map
+	// slice of slice of map
 	outputType string
+
+	// valueOutput will be popualte if the outputType is a generic type
+	valueOutput interface{}
 	
-	// sliceOfSliceOutput will be populated if the outputType is an slice of slice
-	sliceOfSliceOutput [][]map[string]interface{}
-
-	// sliceOutput will be populated if the outputType is an slice
-	sliceOutput []map[string]interface{}
-
 	// mapOutput will be populated if the outputType is a map
 	mapOutput map[string]interface{}
+
+	// sliceOutput will be populated if the outputType is a slice
+	sliceOutput []interface{}
+	
+	// sliceMapOutput will be populated if the outputType is a slice of map
+	sliceMapOutput []map[string]interface{}
+	
+	// sliceOfSliceMapOutput will be populated if the outputType is an slice of slice of map
+	sliceOfSliceMapOutput [][]map[string]interface{}
 }
 
 func GenerateDesiredOutput(desiredOutput interface{}) ([]byte, error) {
 	ifaceType := reflect.TypeOf(desiredOutput)
 	ifaceVals := reflect.ValueOf(desiredOutput)
-	log.Printf("desired value: %#v\n", ifaceVals)
-	var gen generation 
+	var gen generation
+
+	// If it's a slice, we need to check what it's a slice of
 	if ifaceType.Kind() == reflect.Slice{
-		log.Println("is a slice")
-		gen.outputType = aSlice
-		gen.sliceOutput = make([]map[string]interface{}, 0)
-		gen.generateDesiredSlice(ifaceVals.Type().Elem())
-	} else if ifaceType.Kind() == reflect.Struct {
+		// get the element of the slice
+		ifaceElement := ifaceVals.Type().Elem()
+		switch ifaceElement.Kind() {
+		case reflect.Slice:
+			// handle if it's a slice of slice
+			gen.outputType = aSliceOfSliceMap
+			gen.sliceOfSliceMapOutput = make([][]map[string]interface{}, 0)
+			theSlice, err := gen.generateDesiredSlice(ifaceElement)
+			if err != nil {
+				return nil, err
+			}
+			gen.sliceOfSliceMapOutput = append(gen.sliceOfSliceMapOutput, theSlice)
+		case reflect.Struct:
+			// handle if it's a slice of struct
+			gen.outputType = aSliceMap
+			gen.sliceMapOutput = make([]map[string]interface{}, 0)
+			theStruct, err := gen.generateDesiredStruct(ifaceElement)
+			if err != nil {
+				return nil, err
+			}
+			gen.sliceMapOutput = append(gen.sliceMapOutput, theStruct)
+		default:
+			// handle of it's a slice of a generic type
+			gen.outputType = aSlice
+			gen.sliceOutput = make([]interface{}, 0)
+			theValue, err := gen.generateDesiredValue(ifaceElement)
+			if err != nil {
+				return nil, err
+			}
+			gen.sliceOutput = append(gen.sliceOutput, theValue)
+		}
+	}	else if ifaceType.Kind() == reflect.Struct {
+		// handle if it's just a struct
 		gen.outputType = aMap
-		gen.mapOutput = make(map[string]interface{})
-		gen.generateDesiredStruct(ifaceVals.Type())
+		theStruct, err := gen.generateDesiredStruct(ifaceVals.Type())
+		if err != nil {
+			return nil, err
+		}
+		gen.mapOutput = theStruct
 	} else {
-		gen.generateDesiredValue(ifaceVals.Type())
+		// handle if it's just a single value
+		gen.outputType = aValue
+		value, err := gen.generateDesiredValue(ifaceVals.Type())
+		if err != nil {
+			return nil, err
+		}
+		gen.valueOutput = value
 	}
 	return gen.bytes()
 }
 
-func (g generation) generateDesiredSlice(ifaceType reflect.Type) error {
-	// By now we know that its a slice -- []interface{}
-	// and might be []someStruct{}
-	// or it might be [][]someStruct{}
-		if ifaceType.Kind() == reflect.Slice{
-			log.Println("is a slice of slice")
-			g.outputType = aSliceOfSlice
-			g.sliceOfSliceOutput = make([][]map[string]interface{}, 0)
-			g.generateDesiredSliceOfSlice(ifaceType)
-		} else if ifaceType.Kind() == reflect.Struct {
-			log.Println("is a struct")
-			g.generateDesiredStruct(ifaceType)
-		} else {
-			err := g.generateDesiredValue(ifaceType)
-			if err != nil {
-				return err
-			}
+func (g generation) generateDesiredSlice(ifaceType reflect.Type) ([]map[string]interface{}, error) {
+	var thisSlice = make([]map[string]interface{}, 0)
+	ifaceElement := ifaceType.Elem()
+	switch ifaceElement.Kind() {
+	case reflect.Slice:
+		return nil, fmt.Errorf("was not expecting a slice of slice of slice")
+	case reflect.Struct:
+		theStruct, err := g.generateDesiredStruct(ifaceElement)
+		if err != nil {
+			return nil, err
 		}
-	return nil
+		thisSlice = append(thisSlice, theStruct)
+	default:
+		return nil, fmt.Errorf("was not expecting a slice of slice of non-struct")
+	}
+	return thisSlice, nil
 }
 
-func (g generation) generateDesiredSliceOfSlice(ifaceType reflect.Type) error {
-	return nil
-}
-
-func (g generation) generateDesiredStruct(ifaceType reflect.Type) error {
+func (g generation) generateDesiredStruct(ifaceType reflect.Type) (map[string]interface{}, error) {
 	var thisStruct = make(map[string]interface{})
 	for i := 0; i < ifaceType.NumField(); i++ {
     key := ifaceType.Field(i).Tag.Get("json")
-		thisStruct[key] = i
+		valType := ifaceType.Field(i).Type
+		value, err := g.generateDesiredValue(valType)
+		if err != nil {
+			return nil, err
+		}
+		thisStruct[key] = value
 	}
-	log.Printf("this struct: %#v", thisStruct)
-	if g.outputType == aSlice {
-		g.sliceOutput = append(g.sliceOutput, thisStruct)
-	} else if g.outputType == aSliceOfSlice {
-		g.sliceOfSliceOutput = append(g.sliceOfSliceOutput, []map[string]interface{}{thisStruct})
-	} else {
-		g.mapOutput = thisStruct
-	}
-	return nil
+	return thisStruct, nil
 }
 
-func (g generation) generateDesiredValue(ifaceVals reflect.Type) error {
-	ifaceType := reflect.TypeOf(ifaceVals)
+func (g generation) generateDesiredValue(ifaceType reflect.Type) (interface{}, error) {
 	switch ifaceType.Kind() {
+	case reflect.Slice:
+		return g.generateDesiredSlice(ifaceType)
+	case reflect.Struct:
+		return g.generateDesiredStruct(ifaceType)
 	case reflect.String:
 		// If it's a string, depending on what it's field name is, we generate a value
+		return "random string", nil
 	case reflect.Int64:
 		// If it's an int64 we generate a random int64
+		return int64(1), nil
 	case reflect.Int:
 		// If it's an int we generate a random int
+		return 2, nil
 	case reflect.Float32:
 		// if it's a float32 we generate a random float32
+		return 3.4, nil
 	case reflect.Bool:
 		// if it's a bool "flip a coin"
+		return true,nil
 	default:
-		return fmt.Errorf("unknown type: %s", ifaceType.Kind().String())
+		return nil, fmt.Errorf("unknown type: %s", ifaceType.Kind().String())
 	}
-	return nil
 }
 
 func (g generation) bytes() ([]byte, error) {
-	return nil, nil
-}
-
-// ContainsNamedValue determines if string name with given value is present in x
-// fieldName string must be passed as it is used in x i.e. "FirstName"
-// value must be same type expected in x i.e. string "Brandon"
-// currently only supports a slice of exported structs i.e. []User
-func ContainsNamedValue(x interface{}, fieldName string, value interface{}) bool {
-	ifaceType := reflect.TypeOf(x)
-	ifaceVals := reflect.ValueOf(x)
-	if ifaceType.Kind() == reflect.Slice {
-		if ifaceVals.Len() > 0 {
-			if ifaceVals.Index(0).Kind() == reflect.Struct {
-				for i := 0; i < ifaceVals.Len(); i++ {
-					iface := ifaceVals.Index(i).FieldByName(fieldName)
-					if iface.Interface() == value {
-						return true
-					}
-				}
-			}
+	switch g.outputType {
+	case aMap:
+		return json.Marshal(g.mapOutput)
+	case aValue:
+		return json.Marshal(g.valueOutput)
+	case aSlice:
+		return json.Marshal(g.sliceOutput)
+	case aSliceMap:
+		bs, err := json.MarshalIndent(g.sliceMapOutput, "", "\t")
+		if err != nil {
+			return nil, err
 		}
+		log.Println(string(bs))
+		return bs, nil
+	case aSliceOfSliceMap:
+		return json.Marshal(g.sliceOfSliceMapOutput)
+	default:
+		return nil, fmt.Errorf("could not determine output type: %v", g.outputType)
 	}
-	return false
 }
