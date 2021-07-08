@@ -3,10 +3,9 @@ package mock
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"net/http"
 
 	"github.com/bshore/go-hirez/models"
+	"github.com/bshore/go-hirez/utils"
 )
 
 // Ping is a quick way of validating access to the Hi-Rez API.
@@ -29,22 +28,17 @@ func (a *APIClient) CreateSession() error {
 		sig,
 		stamp,
 	)
-	resp, err := http.Get(path)
-	if err != nil {
-		return fmt.Errorf("error creating session: %v", err)
+	if a.Logger != nil {
+		a.Logger.Printf("Mocked Request: %s\n", path)
 	}
-	defer resp.Body.Close()
-	sess := &models.Session{}
-	body, err := ioutil.ReadAll(resp.Body)
+	var sess *models.Session
+	body, err := utils.GenerateDesiredOutput(models.Session{})
 	if err != nil {
-		return fmt.Errorf("error reading response: %v", err)
+		return fmt.Errorf("error generating session: %v", err)
 	}
-	err = json.Unmarshal(body, sess)
+	err = json.Unmarshal(body, &sess)
 	if err != nil {
 		return fmt.Errorf("error unmarshaling response: %v", err)
-	}
-	if sess.RetMsg != "Approved" {
-		return fmt.Errorf("error creating session: %v", sess.RetMsg)
 	}
 	a.SessionID = sess.SessionID
 	a.SessionStamp = sess.Timestamp

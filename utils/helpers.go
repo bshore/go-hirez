@@ -2,6 +2,7 @@ package utils
 
 import (
 	"strings"
+	"time"
 
 	"github.com/bshore/go-hirez/models"
 )
@@ -39,4 +40,8 @@ func Contains(a []string, b string) bool {
 		}
 	}
 	return false
+}
+
+func FormatTime(t time.Time) string {
+	return t.Format(models.TimeFormat)
 }

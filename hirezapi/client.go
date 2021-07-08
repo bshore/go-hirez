@@ -80,7 +80,3 @@ func (a *APIClient) unmarshalResponse(b []byte, v interface{}) error {
 	}
 	return json.Unmarshal(b, v)
 }
-
-func FormatTime(t time.Time) string {
-	return t.Format(models.TimeFormat)
-}
