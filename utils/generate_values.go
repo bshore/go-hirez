@@ -85,20 +85,23 @@ func generateString(fieldName string) string {
 	if strings.Contains(f, "id") {
 		return numbers[rand.Intn(len(numbers))]
 	}
-	if strings.Contains(f, "name") || strings.Contains(f, "god") {
+	if strings.Contains(f, "name") || strings.Contains(f, "god") || strings.Contains(f, "ban") {
 		return names[rand.Intn(len(names))]
 	}
 	if strings.Contains(f, "active") {
 		return actives[rand.Intn(len(actives))]
 	}
-	if strings.Contains(f, "ban") {
-		return names[rand.Intn(len(names))]
-	}
 	if strings.Contains(f, "item") {
 		return items[rand.Intn(len(items))]
 	}
 	if strings.Contains(f, "summary") || strings.Contains(f, "description"){
-		return "many many words"
+		return `many many words many many words many many words many many words many many words
+		many many words many many words many many words many many words many many words many many words
+		many many words many many words many many words many many words many many words many many words
+		many many words many many words many many words many many words many many words many many words
+		many many words many many words many many words many many words many many words many many words
+		many many words many many words many many words many many words many many words many many words
+		`
 	}
 	return "some string"
 }
