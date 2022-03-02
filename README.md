@@ -54,7 +54,7 @@ func main() {
   client := &hirezapi.APIClient{
     DeveloperID: devID,
     AuthKey: authKey,
-    BasePath: "http://api.smitegame.com/smiteapi.svc",
+    BasePath: "https://api.smitegame.com/smiteapi.svc",
     RespType: "json",
   }
 }

@@ -2,7 +2,7 @@ package hirezapi
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"strings"
 
 	"github.com/bshore/go-hirez/models"
@@ -22,7 +22,7 @@ func (a *APIClient) GetPlayerBatch(playerIDs []string) ([]models.Player, error) 
 		return nil, err
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
@@ -41,7 +41,7 @@ func (a *APIClient) GetChampionRanks(player string) ([]models.ChampionRank, erro
 		return nil, err
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
@@ -63,7 +63,7 @@ func (a *APIClient) GetChampions(langCode string) ([]models.Champion, error) {
 		return nil, err
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
@@ -83,7 +83,7 @@ func (a *APIClient) GetChampionLeaderboard(champID string) ([]models.ChampionLea
 		return nil, err
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
@@ -106,7 +106,7 @@ func (a *APIClient) GetChampionSkins(champID, langCode string) ([]models.Champio
 		return nil, err
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
@@ -125,7 +125,7 @@ func (a *APIClient) GetPlayerIDInfoForXBOXAndSwitch(player string) ([]models.Pla
 		return nil, err
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
@@ -148,7 +148,7 @@ func (a *APIClient) GetPlayerLoadouts(player, langCode string) ([]models.PlayerL
 		return nil, err
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
@@ -168,7 +168,7 @@ func (a *APIClient) GetChampionCards(champID, langCode string) ([]models.Champio
 		return nil, err
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
@@ -187,7 +187,7 @@ func (a *APIClient) GetBountyItems() ([]models.BountyItem, error) {
 		return nil, err
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}

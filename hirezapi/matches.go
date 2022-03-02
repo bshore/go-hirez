@@ -2,7 +2,7 @@ package hirezapi
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"strconv"
 	"strings"
 
@@ -16,7 +16,7 @@ func (a *APIClient) GetMatchDetails(matchID string) ([]models.MatchPlayer, error
 		return nil, err
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
@@ -35,7 +35,7 @@ func (a *APIClient) GetMatchDetailsBatch(matchIDs []string) ([]models.MatchPlaye
 		return nil, err
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
@@ -74,7 +74,7 @@ func (a *APIClient) GetMatchPlayerDetails(matchID string) ([]models.LiveMatchPla
 		return nil, err
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
@@ -96,7 +96,7 @@ func (a *APIClient) GetMatchIDsByQueue(queueID, date, hour string) ([]models.Mat
 		return nil, err
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
@@ -113,7 +113,7 @@ func (a *APIClient) GetQueueStats(player, queueID string) ([]models.PlayerGodQue
 		return nil, err
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}

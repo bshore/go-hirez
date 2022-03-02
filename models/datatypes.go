@@ -4,8 +4,8 @@ package models
 type URL int
 
 const (
-	URLSmitePC       = "http://api.smitegame.com/smiteapi.svc"
-	URLPaladinsPC    = "http://api.paladins.com/paladinsapi.svc"
+	URLSmitePC       = "https://api.smitegame.com/smiteapi.svc"
+	URLPaladinsPC    = "https://api.paladins.com/paladinsapi.svc"
 	ResponseTypeJSON = "json"
 	ResponseTypeXML  = "xml"
 

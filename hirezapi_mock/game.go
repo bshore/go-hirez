@@ -24,6 +24,19 @@ func (a *APIClient) GetGods(langCode string) ([]models.God, error) {
 	return output, err
 }
 
+func (a *APIClient) GetGodAltAbilities() ([]models.GodAltAbility, error) {
+	if !utils.IsSmitePath(a.BasePath) {
+		return nil, fmt.Errorf("GetGodAltAbilities(), %s", utils.NotSmiteErrMsg)
+	}
+	resp, err := a.makeRequest("getgodaltabilities", "", []models.GodAltAbility{})
+	if err != nil {
+		return nil, err
+	}
+	var output []models.GodAltAbility
+	err = a.unmarshalResponse(resp, &output)
+	return output, err
+}
+
 // GetGodSkins returns all available skins for a particular God.
 func (a *APIClient) GetGodSkins(godID int64, langCode string) ([]models.GodSkin, error) {
 	if !utils.IsSmitePath(a.BasePath) {

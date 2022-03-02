@@ -3,7 +3,7 @@ package hirezapi
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 
 	"github.com/bshore/go-hirez/models"
@@ -40,7 +40,7 @@ func (a *APIClient) CreateSession() error {
 	}
 	defer resp.Body.Close()
 	sess := &models.Session{}
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return fmt.Errorf("error reading response: %v", err)
 	}
@@ -63,7 +63,7 @@ func (a *APIClient) TestSession() (string, error) {
 		return "", err
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return "", err
 	}
@@ -77,7 +77,7 @@ func (a *APIClient) GetHiRezServerStatus() ([]models.HiRezServerStatus, error) {
 		return nil, err
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
@@ -93,7 +93,7 @@ func (a *APIClient) GetDataUsed() ([]models.DataUsed, error) {
 		return nil, err
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
