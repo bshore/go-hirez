@@ -54,6 +54,8 @@ type HiRezAPI interface {
 	// ===== Game Entity Related =====
 	// GetGods returns all Gods and their various attributes.
 	GetGods(langCode string) ([]models.God, error)
+	// GetGodAltAbilities returns alt abilities for all Gods.
+	GetGodAltAbilities() ([]models.GodAltAbility, error)
 	// GetGodSkins returns all available skins for a particular God.
 	GetGodSkins(godID int64, langCode string) ([]models.GodSkin, error)
 	// GetGodRecommendedItems returns the recommended items for a particular God.

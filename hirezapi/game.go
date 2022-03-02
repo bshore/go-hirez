@@ -2,7 +2,7 @@ package hirezapi
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 
 	"github.com/bshore/go-hirez/models"
 	"github.com/bshore/go-hirez/utils"
@@ -21,11 +21,30 @@ func (a *APIClient) GetGods(langCode string) ([]models.God, error) {
 		return nil, err
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
 	var output []models.God
+	err = a.unmarshalResponse(body, &output)
+	return output, err
+}
+
+func (a *APIClient) GetGodAltAbilities() ([]models.GodAltAbility, error) {
+	if !utils.IsSmitePath(a.BasePath) {
+		return nil, fmt.Errorf("GetGodAltAbilities(), %s", utils.NotSmiteErrMsg)
+	}
+	resp, err := a.makeRequest("getgodaltabilities", "")
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+	fmt.Println(string(body))
+	var output []models.GodAltAbility
 	err = a.unmarshalResponse(body, &output)
 	return output, err
 }
@@ -44,7 +63,7 @@ func (a *APIClient) GetGodSkins(godID int64, langCode string) ([]models.GodSkin,
 		return nil, err
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
@@ -67,7 +86,7 @@ func (a *APIClient) GetGodRecommendedItems(godID int64, langCode string) ([]mode
 		return nil, err
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
@@ -86,7 +105,7 @@ func (a *APIClient) GetItems(langCode string) ([]models.Item, error) {
 		return nil, err
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}

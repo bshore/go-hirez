@@ -2,7 +2,7 @@ package hirezapi
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 
 	"github.com/bshore/go-hirez/models"
 	"github.com/bshore/go-hirez/utils"
@@ -15,7 +15,7 @@ func (a *APIClient) GetESportsProLeagueDetails() ([]models.ESportsProLeagueDetai
 		return nil, err
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
@@ -38,7 +38,7 @@ func (a *APIClient) GetGodLeaderboard(godID, queueID string) ([]models.GodLeader
 		return nil, err
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
@@ -61,7 +61,7 @@ func (a *APIClient) GetLeagueLeaderboard(queueID, tier, round string) ([]models.
 		return nil, err
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
@@ -83,7 +83,7 @@ func (a *APIClient) GetLeagueSeasons(queueID string) ([]models.Season, error) {
 		return nil, err
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
@@ -99,7 +99,7 @@ func (a *APIClient) GetMOTD() ([]models.MOTD, error) {
 		return nil, err
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
@@ -115,7 +115,7 @@ func (a *APIClient) GetTopMatches() ([]models.TopMatch, error) {
 		return nil, err
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
@@ -131,7 +131,7 @@ func (a *APIClient) GetPatchInfo() (*models.VersionInfo, error) {
 		return nil, err
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}

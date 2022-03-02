@@ -2,7 +2,7 @@ package hirezapi
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 
 	"github.com/bshore/go-hirez/models"
 	"github.com/bshore/go-hirez/utils"
@@ -15,7 +15,7 @@ func (a *APIClient) GetPlayer(player string) ([]models.Player, error) {
 		return nil, err
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
@@ -32,7 +32,7 @@ func (a *APIClient) GetPlayerByPlatform(player, portalID string) ([]models.Playe
 		return nil, err
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
@@ -48,7 +48,7 @@ func (a *APIClient) GetPlayerIDByName(player string) ([]models.PlayerIDInfo, err
 		return nil, err
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
@@ -65,7 +65,7 @@ func (a *APIClient) GetPlayerIDByPortalUserID(portalID, portalUserID string) ([]
 		return nil, err
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
@@ -82,7 +82,7 @@ func (a *APIClient) GetPlayerIDsByGamertag(portalID, gamerTag string) ([]models.
 		return nil, err
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
@@ -98,7 +98,7 @@ func (a *APIClient) GetFriends(player string) ([]models.Friend, error) {
 		return nil, err
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
@@ -114,7 +114,7 @@ func (a *APIClient) GetGodRanks(player string) ([]models.GodRank, error) {
 		return nil, err
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
@@ -130,7 +130,7 @@ func (a *APIClient) GetMatchHistory(player string) ([]models.Match, error) {
 		return nil, err
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
@@ -146,7 +146,7 @@ func (a *APIClient) GetPlayerStatus(player string) ([]models.PlayerStatus, error
 		return nil, err
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
@@ -165,7 +165,7 @@ func (a *APIClient) GetPlayerAchievements(playerID string) (*models.PlayerAchiev
 		return nil, err
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
@@ -181,7 +181,7 @@ func (a *APIClient) GetTeamDetails(clanID string) ([]models.TeamDetail, error) {
 		return nil, err
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
@@ -197,7 +197,7 @@ func (a *APIClient) GetTeamPlayers(clanID string) ([]models.TeamPlayer, error) {
 		return nil, err
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
@@ -216,7 +216,7 @@ func (a *APIClient) SearchTeams(searchTeam string) ([]models.TeamDetail, error) 
 		return nil, err
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
@@ -232,7 +232,7 @@ func (a *APIClient) SearchPlayers(searchPlayer string) ([]models.PlayerIDInfo, e
 		return nil, err
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}

@@ -70,6 +70,15 @@ type GodAbility struct {
 	URL         string                 `json:"URL"`
 }
 
+type GodAltAbility struct {
+	AltName     string `json:"alt_name"`
+	AltPosition string `json:"alt_position"`
+	God         string `json:"God"`
+	GodID       int64  `json:"god_id"`
+	ItemID      int64  `json:"item_id"`
+	RetMsg      string `json:"ret_msg"`
+}
+
 type GodBasicAttack struct {
 	ItemDescription AbilityItemDescription `json:"itemDescription"`
 }
