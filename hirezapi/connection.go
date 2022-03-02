@@ -29,7 +29,7 @@ func (a *APIClient) CreateSession() error {
 		"%s/%s%s/%s/%s/%s",
 		a.BasePath,
 		"createsession",
-		models.ResponseTypeJSON.String(),
+		models.ResponseTypeJSON,
 		a.DeveloperID,
 		sig,
 		stamp,
@@ -103,12 +103,12 @@ func (a *APIClient) GetDataUsed() ([]models.DataUsed, error) {
 }
 
 // ChangeBasePath modifies the base path if you want to query a different platform.
-func (a *APIClient) ChangeBasePath(url models.MustBeURL) {
-	a.BasePath = url.String()
+func (a *APIClient) ChangeBasePath(url string) {
+	a.BasePath = url
 	a.CreateSession()
 }
 
 // ChangeResponseType modifies the response type if you want to switch between JSON and XML
-func (a *APIClient) ChangeResponseType(respType models.MustBeResponseType) {
-	a.RespType = respType.String()
+func (a *APIClient) ChangeResponseType(respType string) {
+	a.RespType = respType
 }

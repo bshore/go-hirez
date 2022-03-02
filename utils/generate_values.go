@@ -8,7 +8,7 @@ import (
 
 var trollIcon = "https://static.wikia.nocookie.net/smite_gamepedia/images/7/7f/Icon_Player_WhatANoob.png/revision/latest/scale-to-width-down/120"
 
-var numbers = []string{"0","1","2","3","4","5","6","7","8","9"}
+var numbers = []string{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}
 
 var names = []string{
 	"Achilles", "Agni", "Ah Muzen Cab", "Ah Puch", "Amaterasu", "Anhur", "Anubis", "Ao Kuang",
@@ -41,17 +41,17 @@ var names = []string{
 }
 
 var actives = []string{
-	"Aegis Amulet",	"Belt of Frenzy",	"Blink Rune",	"Bracer of Undoing", "Cursed Ankh",
-	"Heavenly Wings",	"Horrific Emblem", "Magic Shell", "Meditation Cloak",	"Phantom Veil",
-	"Purification Beads",	"Shield of Thorns",	"Sundering Spear", "Teleport Glyph",
+	"Aegis Amulet", "Belt of Frenzy", "Blink Rune", "Bracer of Undoing", "Cursed Ankh",
+	"Heavenly Wings", "Horrific Emblem", "Magic Shell", "Meditation Cloak", "Phantom Veil",
+	"Purification Beads", "Shield of Thorns", "Sundering Spear", "Teleport Glyph",
 }
 
 var items = []string{
-	"Ninja Tabi", "Reinforced Greaves", "Reinforced Shoes", "Shoes of the Magi", "Shoes of Focus", 
-	"Talaria Boots", "Traveler's Shoes", "Warrior Tabi", "Relic Dagger", "Winged Blade", 
-	"Emperor's Armor", "Golden Blade", "Shield of Regrowth", "Bristlebush Acorn", "Contagion", 
-	"Evergreen Acorn", "Lotus Crown", "Thickbark Acorn", "Thistlethorn Acorn", "Witchblade", 
-	"Heartward Amulet", "Odysseus' Bow", "Oni Hunter's Garb", "Soul Eater", "Sovereignty", 
+	"Ninja Tabi", "Reinforced Greaves", "Reinforced Shoes", "Shoes of the Magi", "Shoes of Focus",
+	"Talaria Boots", "Traveler's Shoes", "Warrior Tabi", "Relic Dagger", "Winged Blade",
+	"Emperor's Armor", "Golden Blade", "Shield of Regrowth", "Bristlebush Acorn", "Contagion",
+	"Evergreen Acorn", "Lotus Crown", "Thickbark Acorn", "Thistlethorn Acorn", "Witchblade",
+	"Heartward Amulet", "Odysseus' Bow", "Oni Hunter's Garb", "Soul Eater", "Sovereignty",
 	"Spectral Armor", "Celestial Legion Helm", "Hydra's Lament", "Jade Emperor's Crown", "Magi's Cloak",
 	"Runic Shield", "Talisman of Energy", "Atalanta's Bow", "Blackthorn Hammer", "Genji's Guard",
 	"Hide of the Nemean Lion", "Shogun's Kusari", "Silverbranch Bow", "The Executioner", "Toxic Blade",
@@ -65,7 +65,7 @@ var items = []string{
 	"Rage", "Rangda's Mask", "Ring of Hecate", "Spirit Robe", "Warlock's Staff", "Wind Demon", "Asi",
 	"Obsidian Shard", "Spear of the Magus", "Titan's Bane", "Arondight", "Berserker's Shield",
 	"Book of the Dead", "Ethereal Staff", "Rod of Asclepius", "Spear of Desolation", "Tyrannical Plate Helm",
-	"Void Shield", "Malice", "Serrated Edge", "Soul Reaver", "Chronos' Pendant", "Gem of Isolation", 
+	"Void Shield", "Malice", "Serrated Edge", "Soul Reaver", "Chronos' Pendant", "Gem of Isolation",
 	"Hastened Ring", "Qin's Sais", "Telkhines Ring", "Bloodforge", "Fail-not", "Staff of Myrddin",
 	"Typhon's Fang", "Doom Orb", "Heartseeker", "Mantle of Discord", "Deathbringer", "Rod of Tahuti",
 }
@@ -94,7 +94,7 @@ func generateString(fieldName string) string {
 	if strings.Contains(f, "item") {
 		return items[rand.Intn(len(items))]
 	}
-	if strings.Contains(f, "summary") || strings.Contains(f, "description"){
+	if strings.Contains(f, "summary") || strings.Contains(f, "description") {
 		return `many many words many many words many many words many many words many many words
 		many many words many many words many many words many many words many many words many many words
 		many many words many many words many many words many many words many many words many many words
@@ -105,4 +105,3 @@ func generateString(fieldName string) string {
 	}
 	return "some string"
 }
-

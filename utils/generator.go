@@ -7,13 +7,11 @@ import (
 	"reflect"
 )
 
-// TODO: Slice of Slice isn't working
-
 const (
-	aValue = "value"
-	aMap = "map"
-	aSlice = "slice"
-	aSliceMap = "sliceMap"
+	aValue           = "value"
+	aMap             = "map"
+	aSlice           = "slice"
+	aSliceMap        = "sliceMap"
 	aSliceOfSliceMap = "sliceSliceMap"
 )
 
@@ -28,13 +26,13 @@ type generation struct {
 
 	// valueOutput will be popualte if the outputType is a generic type
 	valueOutput interface{}
-	
+
 	// mapOutput will be populated if the outputType is a map
 	mapOutput map[string]interface{}
 
 	// sliceOutput will be populated if the outputType is a slice
 	sliceOutput []interface{}
-	
+
 	// sliceMapOutput will be populated if the outputType is a slice of map
 	sliceMapOutput []map[string]interface{}
 }
@@ -45,7 +43,7 @@ func GenerateDesiredOutput(desiredOutput interface{}) ([]byte, error) {
 	var gen generation
 
 	// If it's a slice, we need to check what it's a slice of
-	if ifaceType.Kind() == reflect.Slice{
+	if ifaceType.Kind() == reflect.Slice {
 		// get the element of the slice
 		ifaceElement := ifaceVals.Type().Elem()
 		switch ifaceElement.Kind() {
@@ -68,7 +66,7 @@ func GenerateDesiredOutput(desiredOutput interface{}) ([]byte, error) {
 			}
 			gen.sliceOutput = append(gen.sliceOutput, theValue)
 		}
-	}	else if ifaceType.Kind() == reflect.Struct {
+	} else if ifaceType.Kind() == reflect.Struct {
 		// handle if it's just a struct
 		gen.outputType = aMap
 		theStruct, err := gen.generateDesiredStruct(ifaceVals.Type())
@@ -109,7 +107,7 @@ func (g generation) generateDesiredSlice(ifaceType reflect.Type) ([]map[string]i
 func (g generation) generateDesiredStruct(ifaceType reflect.Type) (map[string]interface{}, error) {
 	var thisStruct = make(map[string]interface{})
 	for i := 0; i < ifaceType.NumField(); i++ {
-    key := ifaceType.Field(i).Tag.Get("json")
+		key := ifaceType.Field(i).Tag.Get("json")
 		valType := ifaceType.Field(i).Type
 		value, err := g.generateDesiredValue(valType, key)
 		if err != nil {
@@ -135,7 +133,7 @@ func (g generation) generateDesiredValue(ifaceType reflect.Type, fieldName strin
 	case reflect.Float32:
 		return rand.Float32(), nil
 	case reflect.Bool:
-		return rand.Int() % 2 == 0, nil
+		return rand.Int()%2 == 0, nil
 	default:
 		return nil, fmt.Errorf("unknown type: %s", ifaceType.Kind().String())
 	}

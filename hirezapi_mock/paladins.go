@@ -121,7 +121,6 @@ func (a *APIClient) GetPlayerLoadouts(player, langCode string) ([]models.PlayerL
 	return output, err
 }
 
-
 // GetChampionCards returns all Champion cards.
 func (a *APIClient) GetChampionCards(champID, langCode string) ([]models.ChampionCard, error) {
 	if !utils.IsPaladinsPath(a.BasePath) {

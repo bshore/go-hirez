@@ -21,30 +21,27 @@ type APIClient struct {
 	RespType     string
 	SessionID    string
 	SessionStamp string
-	Logger 			 *log.Logger
 }
 
 // New initializes a HiRezAPI instance with devID, auth key, url, and response type.
-func New(devID, key string, url models.MustBeURL, respType models.MustBeResponseType) (hirezapi.HiRezAPI, error) {
+func New(devID, key, url, respType string) (hirezapi.HiRezAPI, error) {
 	if devID == "" {
 		return nil, errors.New(`must provide a developerID (eg, 1004)`)
 	}
 	if key == "" {
 		return nil, errors.New(`must provide an auth key (eg, 23DF3C7E9BD14D84BF892AD206B6755C)`)
 	}
-	api := &APIClient{
-		BasePath:    url.String(),
-		RespType:    respType.String(),
+	return &APIClient{
+		BasePath:    url,
+		RespType:    respType,
 		DeveloperID: devID,
 		AuthKey:     key,
-		Logger:      log.Default(),
-	}
-	return api, nil
+	}, nil
 }
 
 // NewWithSession is like New() but it also tests connectivity with Ping and
 // initializes a session for you.
-func NewWithSession(devID, key string, url models.URL, respType models.MustBeResponseType) (hirezapi.HiRezAPI, error) {
+func NewWithSession(devID, key, url, respType string) (hirezapi.HiRezAPI, error) {
 	api, err := New(devID, key, url, respType)
 	if err != nil {
 		return nil, err
@@ -60,19 +57,13 @@ func NewWithSession(devID, key string, url models.URL, respType models.MustBeRes
 	return api, nil
 }
 
-func (a *APIClient) NoLogging() {
-	a.Logger = nil
-}
-
 func (a *APIClient) makeRequest(methodName, path string, desiredOutput interface{}) ([]byte, error) {
 	signature, timestamp := a.generateSignature(methodName)
 	apiURL := fmt.Sprintf("%s/%s%s/%s/%s/%s/%s", a.BasePath, methodName, a.RespType, a.DeveloperID, signature, a.SessionID, timestamp)
 	if path != "" {
 		apiURL = fmt.Sprintf("%s/%s", apiURL, path)
 	}
-	if a.Logger != nil {
-		a.Logger.Printf("Mocked Request: %s\n", apiURL)
-	}
+	log.Printf("Mocked Request: %s\n", apiURL)
 	return utils.GenerateDesiredOutput(desiredOutput)
 }
 
@@ -85,7 +76,7 @@ func (a *APIClient) generateSignature(methodName string) (string, string) {
 }
 
 func (a *APIClient) unmarshalResponse(b []byte, v interface{}) error {
-	if a.RespType == models.ResponseTypeXML.String() {
+	if a.RespType == models.ResponseTypeXML {
 		return xml.Unmarshal(b, v)
 	}
 	return json.Unmarshal(b, v)

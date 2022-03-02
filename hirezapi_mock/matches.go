@@ -2,7 +2,6 @@ package mock
 
 import (
 	"fmt"
-	"strconv"
 	"strings"
 
 	"github.com/bshore/go-hirez/models"
@@ -34,26 +33,9 @@ func (a *APIClient) GetMatchDetailsBatch(matchIDs []string) ([]models.MatchPlaye
 }
 
 // GetOrganizedMatchDetailsBatch is the same as GetMatchDetailsBatch(), except it groups the players by match. (limit batch query to 5-10 matchIDs)
+// NOTE: This method is currently unimplemented due to issues generating a slice of slice of structs
 func (a *APIClient) GetOrganizedMatchDetailsBatch(matchIDs []string) ([][]models.MatchPlayer, error) {
-	players, err := a.GetMatchDetailsBatch(matchIDs)
-	if err != nil {
-		return nil, err
-	}
-	var output [][]models.MatchPlayer
-	for _, matchID := range matchIDs {
-		id, err := strconv.ParseInt(matchID, 10, 64)
-		if err != nil {
-			return nil, err
-		}
-		var playersInMatch []models.MatchPlayer
-		for _, player := range players {
-			if player.Match == id {
-				playersInMatch = append(playersInMatch, player)
-			}
-		}
-		output = append(output, playersInMatch)
-	}
-	return output, err
+	return nil, nil
 }
 
 // GetMatchPlayerDetails returns player information for a live match.
@@ -68,10 +50,10 @@ func (a *APIClient) GetMatchPlayerDetails(matchID string) ([]models.LiveMatchPla
 }
 
 /*GetMatchIDsByQueue lists all MatchIDs for a particular match queue.
-	- queueID can be referened by constants defined in this package (eg, hirezapi.ConquestRanked).
-	- date must be formatted/formattable by hirezapi.DateFormat (yyyyMMdd).
-	- hour may be "0" - "23" and optionally may contain a ten minute window separated by a comma (eg, "6,30").
-	- hour may also be "-1" to fetch the whole day, but may stall/fail due to the amount of data.
+- queueID can be referened by constants defined in this package (eg, hirezapi.ConquestRanked).
+- date must be formatted/formattable by hirezapi.DateFormat (yyyyMMdd).
+- hour may be "0" - "23" and optionally may contain a ten minute window separated by a comma (eg, "6,30").
+- hour may also be "-1" to fetch the whole day, but may stall/fail due to the amount of data.
 */
 func (a *APIClient) GetMatchIDsByQueue(queueID, date, hour string) ([]models.Match, error) {
 	path := fmt.Sprintf("%s/%s/%s", queueID, date, hour)

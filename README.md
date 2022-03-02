@@ -5,7 +5,9 @@
 ## Getting Started with Mocks
 
 `go-hirez` offers a mocked version of the API that will generate response output.
-You can use the mocked version of the API to test functionality without adding to your daily API limit while developing.
+You can use the mocked API to test functionality without adding to your daily API limit.
+
+_Note: The only method that isn't mocked is `GetOrganizedMatchDetailsBatch`_
 
 ```go
 package main
@@ -20,9 +22,6 @@ func main() {
   client.StartSession()
 
   client, err := mock.NewWithSession("1234", "5678", models.URLSmitePC, models.ResponseTypeJSON)
-
-  // Disable logging if you want
-  client.NoLogging()
 }
 ```
 

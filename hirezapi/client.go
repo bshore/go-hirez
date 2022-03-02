@@ -14,16 +14,16 @@ import (
 
 // APIClient is the implementation of the HiRezAPI interface.
 type APIClient struct {
-	DeveloperID string
-	AuthKey string
-	BasePath string
-	RespType string
-	SessionID string
+	DeveloperID  string
+	AuthKey      string
+	BasePath     string
+	RespType     string
+	SessionID    string
 	SessionStamp string
 }
 
 // New initializes a HiRezAPI instance with devID, auth key, url, and response type.
-func New(devID, key string, url models.MustBeURL, respType models.MustBeResponseType) (HiRezAPI, error) {
+func New(devID, key, url, respType string) (HiRezAPI, error) {
 	if devID == "" {
 		return nil, errors.New(`must provide a developerID (eg, 1004)`)
 	}
@@ -31,17 +31,17 @@ func New(devID, key string, url models.MustBeURL, respType models.MustBeResponse
 		return nil, errors.New(`must provide an auth key (eg, 23DF3C7E9BD14D84BF892AD206B6755C)`)
 	}
 	api := &APIClient{
-		BasePath: url.String(),
-		RespType: respType.String(),
+		BasePath:    url,
+		RespType:    respType,
 		DeveloperID: devID,
-		AuthKey: key,
+		AuthKey:     key,
 	}
 	return api, nil
 }
 
 // NewWithSession is like New() but it also tests connectivity with Ping and
 // initializes a session for you.
-func NewWithSession(devID, key string, url models.URL, respType models.MustBeResponseType) (HiRezAPI, error) {
+func NewWithSession(devID, key, url, respType string) (HiRezAPI, error) {
 	api, err := New(devID, key, url, respType)
 	if err != nil {
 		return nil, err
@@ -75,7 +75,7 @@ func (a *APIClient) generateSignature(methodName string) (string, string) {
 }
 
 func (a *APIClient) unmarshalResponse(b []byte, v interface{}) error {
-	if a.RespType == models.ResponseTypeXML.String() {
+	if a.RespType == models.ResponseTypeXML {
 		return xml.Unmarshal(b, v)
 	}
 	return json.Unmarshal(b, v)

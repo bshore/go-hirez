@@ -3,6 +3,7 @@ package mock
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 
 	"github.com/bshore/go-hirez/models"
 	"github.com/bshore/go-hirez/utils"
@@ -10,9 +11,7 @@ import (
 
 // Ping is a quick way of validating access to the Hi-Rez API.
 func (a *APIClient) Ping() error {
-	if a.Logger != nil {
-		a.Logger.Println("Ping() has been called")
-	}
+	log.Println("Ping() has been called")
 	return nil
 }
 
@@ -23,14 +22,12 @@ func (a *APIClient) CreateSession() error {
 		"%s/%s%s/%s/%s/%s",
 		a.BasePath,
 		"createsession",
-		models.ResponseTypeJSON.String(),
+		models.ResponseTypeJSON,
 		a.DeveloperID,
 		sig,
 		stamp,
 	)
-	if a.Logger != nil {
-		a.Logger.Printf("Mocked Request: %s\n", path)
-	}
+	log.Printf("Mocked Request: %s\n", path)
 	var sess *models.Session
 	body, err := utils.GenerateDesiredOutput(models.Session{})
 	if err != nil {
@@ -76,12 +73,12 @@ func (a *APIClient) GetDataUsed() ([]models.DataUsed, error) {
 }
 
 // ChangeBasePath modifies the base path if you want to query a different platform.
-func (a *APIClient) ChangeBasePath(url models.MustBeURL) {
-	a.BasePath = url.String()
+func (a *APIClient) ChangeBasePath(url string) {
+	a.BasePath = url
 	a.CreateSession()
 }
 
 // ChangeResponseType modifies the response type if you want to switch between JSON and XML
-func (a *APIClient) ChangeResponseType(respType models.MustBeResponseType) {
-	a.RespType = respType.String()
+func (a *APIClient) ChangeResponseType(respType string) {
+	a.RespType = respType
 }

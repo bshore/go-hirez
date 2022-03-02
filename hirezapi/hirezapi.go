@@ -17,9 +17,9 @@ type HiRezAPI interface {
 	// GetDataUsed returns API Developer daily usage limits and the current status against those limits.
 	GetDataUsed() ([]models.DataUsed, error)
 	// ChangeBasePath modifies the base path if you want to query a different platform
-	ChangeBasePath(url models.MustBeURL)
+	ChangeBasePath(url string)
 	// ChangeResponseType modifies the response type if you want to switch between JSON and XML
-	ChangeResponseType(respType models.MustBeResponseType)
+	ChangeResponseType(respType string)
 
 	// ===== Player Related =====
 	// GetPlayer returns league and other high level data for a particular player.
@@ -66,8 +66,8 @@ type HiRezAPI interface {
 	GetMatchDetails(matchID string) ([]models.MatchPlayer, error)
 	/*GetMatchDetailsBatch returns the statistics for a particular set of completed matches. (limit batch query to 5-10 matchIDs)
 
-	- The actual Hi-Rez API does not automatically group the response by matchID.
-  - If you want the results to be grouped by matchID, use GetOrganizedMatchDetailsBatch() instead.
+		- The actual Hi-Rez API does not automatically group the response by matchID.
+	  - If you want the results to be grouped by matchID, use GetOrganizedMatchDetailsBatch() instead.
 	*/
 	GetMatchDetailsBatch(matchIDs []string) ([]models.MatchPlayer, error)
 	// GetOrganizedMatchDetailsBatch is the same as GetMatchDetailsBatch(), except it groups the players by match.
