@@ -1,8 +1,7 @@
-package hirezapi
+package mock
 
 import (
 	"fmt"
-	"io/ioutil"
 	"strings"
 
 	"github.com/bshore/go-hirez/models"
@@ -17,17 +16,12 @@ func (a *APIClient) GetPlayerBatch(playerIDs []string) ([]models.Player, error) 
 	if !utils.IsPaladinsPath(a.BasePath) {
 		return nil, fmt.Errorf("GetPlayerBatch() %s", utils.NotPaladinsErrMsg)
 	}
-	resp, err := a.makeRequest("getplayerbatch", strings.Join(playerIDs, ","))
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	resp, err := a.makeRequest("getplayerbatch", strings.Join(playerIDs, ","), []models.Player{})
 	if err != nil {
 		return nil, err
 	}
 	var output []models.Player
-	err = a.unmarshalResponse(body, &output)
+	err = a.unmarshalResponse(resp, &output)
 	return output, err
 }
 
@@ -36,17 +30,12 @@ func (a *APIClient) GetChampionRanks(player string) ([]models.ChampionRank, erro
 	if !utils.IsPaladinsPath(a.BasePath) {
 		return nil, fmt.Errorf("GetChampionRanks() %s", utils.NotPaladinsErrMsg)
 	}
-	resp, err := a.makeRequest("getchampionranks", player)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	resp, err := a.makeRequest("getchampionranks", player, []models.ChampionRank{})
 	if err != nil {
 		return nil, err
 	}
 	var output []models.ChampionRank
-	err = a.unmarshalResponse(body, &output)
+	err = a.unmarshalResponse(resp, &output)
 	return output, err
 }
 
@@ -58,17 +47,12 @@ func (a *APIClient) GetChampions(langCode string) ([]models.Champion, error) {
 	if langCode == "" {
 		langCode = models.English
 	}
-	resp, err := a.makeRequest("getchampions", langCode)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	resp, err := a.makeRequest("getchampions", langCode, []models.Champion{})
 	if err != nil {
 		return nil, err
 	}
 	var output []models.Champion
-	err = a.unmarshalResponse(body, &output)
+	err = a.unmarshalResponse(resp, &output)
 	return output, err
 }
 
@@ -78,17 +62,12 @@ func (a *APIClient) GetChampionLeaderboard(champID string) ([]models.ChampionLea
 		return nil, fmt.Errorf("GetChampionLeaderboard() %s", utils.NotPaladinsErrMsg)
 	}
 	path := fmt.Sprintf("%s/428", champID)
-	resp, err := a.makeRequest("getchampionleaderboard", path)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	resp, err := a.makeRequest("getchampionleaderboard", path, []models.ChampionLeaderboardEntry{})
 	if err != nil {
 		return nil, err
 	}
 	var output []models.ChampionLeaderboardEntry
-	err = a.unmarshalResponse(body, &output)
+	err = a.unmarshalResponse(resp, &output)
 	return output, err
 }
 
@@ -101,17 +80,12 @@ func (a *APIClient) GetChampionSkins(champID, langCode string) ([]models.Champio
 		langCode = models.English
 	}
 	path := fmt.Sprintf("%s/%s", champID, langCode)
-	resp, err := a.makeRequest("getchampionskins", path)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	resp, err := a.makeRequest("getchampionskins", path, []models.ChampionSkin{})
 	if err != nil {
 		return nil, err
 	}
 	var output []models.ChampionSkin
-	err = a.unmarshalResponse(body, &output)
+	err = a.unmarshalResponse(resp, &output)
 	return output, err
 }
 
@@ -120,17 +94,12 @@ func (a *APIClient) GetPlayerIDInfoForXBOXAndSwitch(player string) ([]models.Pla
 	if !utils.IsPaladinsPath(a.BasePath) {
 		return nil, fmt.Errorf("GetPlayerIDInfoForXBOXAndSwitch() %s", utils.NotPaladinsErrMsg)
 	}
-	resp, err := a.makeRequest("getplayeridinfoforxboxandswitch", player)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	resp, err := a.makeRequest("getplayeridinfoforxboxandswitch", player, []models.PlayerIDInfoForXBOXAndSwitch{})
 	if err != nil {
 		return nil, err
 	}
 	var output []models.PlayerIDInfoForXBOXAndSwitch
-	err = a.unmarshalResponse(body, &output)
+	err = a.unmarshalResponse(resp, &output)
 	return output, err
 }
 
@@ -143,17 +112,12 @@ func (a *APIClient) GetPlayerLoadouts(player, langCode string) ([]models.PlayerL
 		langCode = models.English
 	}
 	path := fmt.Sprintf("%s/%s", player, langCode)
-	resp, err := a.makeRequest("getplayerloadouts", path)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	resp, err := a.makeRequest("getplayerloadouts", path, []models.PlayerLoadout{})
 	if err != nil {
 		return nil, err
 	}
 	var output []models.PlayerLoadout
-	err = a.unmarshalResponse(body, &output)
+	err = a.unmarshalResponse(resp, &output)
 	return output, err
 }
 
@@ -163,17 +127,12 @@ func (a *APIClient) GetChampionCards(champID, langCode string) ([]models.Champio
 		return nil, fmt.Errorf("GetChampionCards() %s", utils.NotPaladinsErrMsg)
 	}
 	path := fmt.Sprintf("%s/%s", champID, langCode)
-	resp, err := a.makeRequest("getchampioncards", path)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	resp, err := a.makeRequest("getchampioncards", path, []models.ChampionCard{})
 	if err != nil {
 		return nil, err
 	}
 	var output []models.ChampionCard
-	err = a.unmarshalResponse(body, &output)
+	err = a.unmarshalResponse(resp, &output)
 	return output, err
 }
 
@@ -182,16 +141,11 @@ func (a *APIClient) GetBountyItems() ([]models.BountyItem, error) {
 	if !utils.IsPaladinsPath(a.BasePath) {
 		return nil, fmt.Errorf("GetBountyItems() %s", utils.NotPaladinsErrMsg)
 	}
-	resp, err := a.makeRequest("getbountyitems", "")
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	resp, err := a.makeRequest("getbountyitems", "", []models.BountyItem{})
 	if err != nil {
 		return nil, err
 	}
 	var output []models.BountyItem
-	err = a.unmarshalResponse(body, &output)
+	err = a.unmarshalResponse(resp, &output)
 	return output, err
 }

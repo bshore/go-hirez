@@ -1,9 +1,7 @@
-package hirezapi
+package mock
 
 import (
 	"fmt"
-	"io/ioutil"
-	"strconv"
 	"strings"
 
 	"github.com/bshore/go-hirez/models"
@@ -11,17 +9,12 @@ import (
 
 // GetMatchDetails returns the statistics for a particular completed match.
 func (a *APIClient) GetMatchDetails(matchID string) ([]models.MatchPlayer, error) {
-	resp, err := a.makeRequest("getmatchdetails", matchID)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	resp, err := a.makeRequest("getmatchdetails", matchID, []models.MatchPlayer{})
 	if err != nil {
 		return nil, err
 	}
 	var output []models.MatchPlayer
-	err = a.unmarshalResponse(body, &output)
+	err = a.unmarshalResponse(resp, &output)
 	return output, err
 }
 
@@ -30,56 +23,29 @@ func (a *APIClient) GetMatchDetailsBatch(matchIDs []string) ([]models.MatchPlaye
 	if len(matchIDs) > 10 {
 		return nil, fmt.Errorf("per API docs, the list of matchIDs should contain no more than 10")
 	}
-	resp, err := a.makeRequest("getmatchdetailsbatch", strings.Join(matchIDs, ","))
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	resp, err := a.makeRequest("getmatchdetailsbatch", strings.Join(matchIDs, ","), []models.MatchPlayer{})
 	if err != nil {
 		return nil, err
 	}
 	var output []models.MatchPlayer
-	err = a.unmarshalResponse(body, &output)
+	err = a.unmarshalResponse(resp, &output)
 	return output, err
 }
 
 // GetOrganizedMatchDetailsBatch is the same as GetMatchDetailsBatch(), except it groups the players by match. (limit batch query to 5-10 matchIDs)
+// NOTE: This method is currently unimplemented due to issues generating a slice of slice of structs
 func (a *APIClient) GetOrganizedMatchDetailsBatch(matchIDs []string) ([][]models.MatchPlayer, error) {
-	players, err := a.GetMatchDetailsBatch(matchIDs)
-	if err != nil {
-		return nil, err
-	}
-	var output [][]models.MatchPlayer
-	for _, matchID := range matchIDs {
-		id, err := strconv.ParseInt(matchID, 10, 64)
-		if err != nil {
-			return nil, err
-		}
-		var playersInMatch []models.MatchPlayer
-		for _, player := range players {
-			if player.Match == id {
-				playersInMatch = append(playersInMatch, player)
-			}
-		}
-		output = append(output, playersInMatch)
-	}
-	return output, err
+	return nil, nil
 }
 
 // GetMatchPlayerDetails returns player information for a live match.
 func (a *APIClient) GetMatchPlayerDetails(matchID string) ([]models.LiveMatchPlayer, error) {
-	resp, err := a.makeRequest("getmatchplayerdetails", matchID)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	resp, err := a.makeRequest("getmatchplayerdetails", matchID, []models.LiveMatchPlayer{})
 	if err != nil {
 		return nil, err
 	}
 	var output []models.LiveMatchPlayer
-	err = a.unmarshalResponse(body, &output)
+	err = a.unmarshalResponse(resp, &output)
 	return output, err
 }
 
@@ -91,33 +57,23 @@ func (a *APIClient) GetMatchPlayerDetails(matchID string) ([]models.LiveMatchPla
 */
 func (a *APIClient) GetMatchIDsByQueue(queueID, date, hour string) ([]models.Match, error) {
 	path := fmt.Sprintf("%s/%s/%s", queueID, date, hour)
-	resp, err := a.makeRequest("getmatchidsbyqueue", path)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	resp, err := a.makeRequest("getmatchidsbyqueue", path, []models.Match{})
 	if err != nil {
 		return nil, err
 	}
 	var output []models.Match
-	err = a.unmarshalResponse(body, &output)
+	err = a.unmarshalResponse(resp, &output)
 	return output, err
 }
 
 // GetQueueStats returns match summary stats for a player + queue, grouped by Gods played.
 func (a *APIClient) GetQueueStats(player, queueID string) ([]models.PlayerGodQueueStat, error) {
 	path := fmt.Sprintf("%s/%s", player, queueID)
-	resp, err := a.makeRequest("getqueuestats", path)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	resp, err := a.makeRequest("getqueuestats", path, []models.PlayerGodQueueStat{})
 	if err != nil {
 		return nil, err
 	}
 	var output []models.PlayerGodQueueStat
-	err = a.unmarshalResponse(body, &output)
+	err = a.unmarshalResponse(resp, &output)
 	return output, err
 }

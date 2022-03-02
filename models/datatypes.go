@@ -1,55 +1,14 @@
-package hirezapi
+package models
 
 // URL determinmes the baseURL to use when calling Hi-Rez API endpoints
 type URL int
 
 const (
-	URLSmitePC URL = iota
-	URLPaladinsPC
-)
+	URLSmitePC       = "http://api.smitegame.com/smiteapi.svc"
+	URLPaladinsPC    = "http://api.paladins.com/paladinsapi.svc"
+	ResponseTypeJSON = "json"
+	ResponseTypeXML  = "xml"
 
-func (u URL) String() string {
-	return [...]string{
-		"https://api.smitegame.com/smiteapi.svc",
-		"https://api.paladins.com/paladinsapi.svc",
-	}[u]
-}
-
-// IsURL exists to satisfy the MustBeURL interface
-func (u URL) IsURL() bool {
-	return true
-}
-
-// MustBeURL exists to force the constructors to use our URL type
-type MustBeURL interface {
-	String() string
-	IsURL() bool
-}
-
-// ResponseType determines the type of the Response body: JSON or XML
-type ResponseType int
-
-const (
-	ResponseTypeJSON ResponseType = iota
-	ResponseTypeXML
-)
-
-func (r ResponseType) String() string {
-	return [...]string{"json", "xml"}[r]
-}
-
-// IsResponseType exists to satisfy the MustBeResponseType interface
-func (r ResponseType) IsResponseType() bool {
-	return true
-}
-
-// MustBeResponseType exists to force the constructors to use our ResponseType type
-type MustBeResponseType interface {
-	String() string
-	IsResponseType() bool
-}
-
-const (
 	// yyyyMMdd
 	DateFormat string = "20060102"
 

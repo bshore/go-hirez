@@ -1,3 +1,3 @@
 module github.com/bshore/go-hirez
 
-go 1.15
+go 1.17
