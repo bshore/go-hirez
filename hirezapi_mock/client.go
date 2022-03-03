@@ -14,6 +14,7 @@ import (
 	"github.com/bshore/go-hirez/utils"
 )
 
+// APIClient stores data needed to interface with the HiRez API and implements the HiRezAPI interface methods.
 type APIClient struct {
 	DeveloperID  string
 	AuthKey      string

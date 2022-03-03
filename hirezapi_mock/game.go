@@ -24,6 +24,7 @@ func (a *APIClient) GetGods(langCode string) ([]models.God, error) {
 	return output, err
 }
 
+// GetGodAltAbilities returns alt abilities for all Gods.
 func (a *APIClient) GetGodAltAbilities() ([]models.GodAltAbility, error) {
 	if !utils.IsSmitePath(a.BasePath) {
 		return nil, fmt.Errorf("GetGodAltAbilities(), %s", utils.NotSmiteErrMsg)

@@ -1,18 +1,19 @@
 package models
 
-// URL determinmes the baseURL to use when calling Hi-Rez API endpoints
-type URL int
-
 const (
-	URLSmitePC       = "https://api.smitegame.com/smiteapi.svc"
-	URLPaladinsPC    = "https://api.paladins.com/paladinsapi.svc"
+	// URLSmitePC is the base URL for making Smite requests
+	URLSmitePC = "https://api.smitegame.com/smiteapi.svc"
+	// URLPaladinsPC is the base URL for making Paladins requests
+	URLPaladinsPC = "https://api.paladins.com/paladinsapi.svc"
+	// ResponseTypeJSON is the json response type
 	ResponseTypeJSON = "json"
-	ResponseTypeXML  = "xml"
+	// ResponseTypeXML is the xml response type
+	ResponseTypeXML = "xml"
 
-	// yyyyMMdd
+	// DateFormat yyyyMMdd
 	DateFormat string = "20060102"
 
-	// yyyyMMddHHmmss
+	// TimeFormat yyyyMMddHHmmss
 	TimeFormat string = "20060102150405"
 
 	// PortalIDs (Gaming Platforms)

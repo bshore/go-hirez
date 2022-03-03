@@ -24,7 +24,7 @@ func (a *APIClient) GetPlayer(player string) ([]models.Player, error) {
 	return output, err
 }
 
-// GetPlayer returns league and other high level data for a particular player.
+// GetPlayerByPlatform returns league and other high level data for a particular player.
 func (a *APIClient) GetPlayerByPlatform(player, portalID string) ([]models.Player, error) {
 	path := fmt.Sprintf("%v/%v", player, portalID)
 	resp, err := a.makeRequest("getplayer", path)

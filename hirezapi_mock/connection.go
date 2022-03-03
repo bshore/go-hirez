@@ -50,7 +50,7 @@ func (a *APIClient) TestSession() (string, error) {
 	return "", fmt.Errorf("session not initialized")
 }
 
-// GetHirezServerStatus returns UP/DOWN status for the primary game/platform environments. Data is cached once a minute.
+// GetHiRezServerStatus returns UP/DOWN status for the primary game/platform environments. Data is cached once a minute.
 func (a *APIClient) GetHiRezServerStatus() ([]models.HiRezServerStatus, error) {
 	resp, err := a.makeRequest("gethirezserverstatus", "", []models.HiRezServerStatus{})
 	if err != nil {

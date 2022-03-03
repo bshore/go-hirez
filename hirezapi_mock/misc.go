@@ -54,7 +54,7 @@ func (a *APIClient) GetLeagueLeaderboard(queueID, tier, round string) ([]models.
 	return output, err
 }
 
-// GetLeageSeasons returns a list of seasons for a match queue.
+// GetLeagueSeasons returns a list of seasons for a match queue.
 func (a *APIClient) GetLeagueSeasons(queueID string) ([]models.Season, error) {
 	if !utils.IsSmitePath(a.BasePath) {
 		return nil, fmt.Errorf("GetLeageSeasons() %s", utils.NotSmiteErrMsg)
