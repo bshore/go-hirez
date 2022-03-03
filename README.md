@@ -1,5 +1,9 @@
 # About
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/bshore/go-hirez?style=flat-square)](https://goreportcard.com/report/github.com/bshore/go-hirez)
+[![GitHub go.mod Go version of a Go module](https://img.shields.io/github/go-mod/go-version/gomods/athens.svg)](https://github.com/bshore/go-hirez)
+[![PkgGoDev](https://pkg.go.dev/badge/mod/github.com/bshore/go-hirez)](https://pkg.go.dev/mod/github.com/bshore/go-hirez)
+
 `go-hirez` is a Golang API Library for the Hi-Rez (Smite) developer API [PDF reference](https://docs.google.com/document/d/1OFS-3ocSx-1Rvg4afAnEHlT3917MAK_6eJTR6rzr-BM/edit)
 
 ## Getting Started with Mocks
