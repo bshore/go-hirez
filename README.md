@@ -6,6 +6,12 @@
 
 `go-hirez` is a Golang API Library for the Hi-Rez (Smite) developer API [PDF reference](https://docs.google.com/document/d/1OFS-3ocSx-1Rvg4afAnEHlT3917MAK_6eJTR6rzr-BM/edit)
 
+Add it with `go get`
+```bash
+go get github.com/bshore/go-hirez
+```
+
+
 ## Getting Started with Mocks
 
 `go-hirez` offers a mocked version of the API that will generate response output.
@@ -67,3 +73,4 @@ func main() {
 ## Notes
 
 - Written with JSON responses in mind, the XML response seems a little more involved, so XML isn't supported at this time.
+- Written with SMITE in mind, the Paladins endpoints are present but have not been fully tested so there are no guarantees.
