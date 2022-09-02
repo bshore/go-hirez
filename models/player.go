@@ -1,5 +1,12 @@
 package models
 
+import (
+	"encoding/json"
+	"fmt"
+	"strconv"
+)
+
+// Player stores data related to a Player account
 type Player struct {
 	ActivePlayerID               int64            `json:"ActivePlayerId"`
 	AvatarID                     int64            `json:"AvatarID"`
@@ -49,22 +56,42 @@ type Player struct {
 	RetMsg                       string           `json:"ret_msg"`
 }
 
+// MergedPlayer stores data related to merged identites of the same Player on different Platforms
 type MergedPlayer struct {
 	MergeDatetime string `json:"merge_datetime"`
 	PlayerID      string `json:"playerId"`
 	PortalID      string `json:"portalId"`
 }
 
-type PlayerIDInfo struct {
-	Name         string `json:"Name,omitempty"`
-	HZPlayerName string `json:"hz_player_name,omitempty"`
-	PlayerID     string `json:"player_id"`
-	Portal       string `json:"portal"`
-	PortalID     string `json:"portal_id"`
-	PrivacyFlag  string `json:"privacy_flag"`
-	RetMsg       string `json:"ret_msg"`
+// PlayerIDValue needs to be flexible because the HiRez API returns a number and a string
+// on two different endpoints... i.e. - 1234 and "1234"
+type PlayerIDValue string
+
+func (p *PlayerIDValue) UnmarshalJSON(b []byte) error {
+	var s string
+	if err := json.Unmarshal(b, &s); err != nil {
+		var i int
+		if err2 := json.Unmarshal(b, &i); err2 != nil {
+			return fmt.Errorf("failed to unmarshal player_id, unmarshal string err: %v, unmarshal int err: %v", err, err2)
+		}
+		s = strconv.Itoa(i)
+	}
+	*p = PlayerIDValue(s)
+	return nil
 }
 
+// PlayerIDInfo stores data related to a Player Identity
+type PlayerIDInfo struct {
+	Name         string        `json:"Name,omitempty"`
+	HZPlayerName string        `json:"hz_player_name,omitempty"`
+	PlayerID     PlayerIDValue `json:"player_id"`
+	Portal       string        `json:"portal"`
+	PortalID     string        `json:"portal_id"`
+	PrivacyFlag  string        `json:"privacy_flag"`
+	RetMsg       string        `json:"ret_msg"`
+}
+
+// PlayerRankedInfo stores data related to Ranked Info for a Player
 type PlayerRankedInfo struct {
 	Leaves       int64   `json:"Leaves"`
 	Losses       int64   `json:"Losses"`
@@ -82,6 +109,7 @@ type PlayerRankedInfo struct {
 	RetMsg       string  `json:"ret_msg"`
 }
 
+// Friend stores data related to a Player's Friend
 type Friend struct {
 	AccountID   string `json:"account_id"`
 	AvatarURL   string `json:"avatar_url"`
@@ -93,6 +121,7 @@ type Friend struct {
 	Status      string `json:"status"`
 }
 
+// GodRank stores data related to a Player's Rank for a God
 type GodRank struct {
 	Assists     int64  `json:"Assists"`
 	Deaths      int64  `json:"Deaths"`
@@ -108,6 +137,7 @@ type GodRank struct {
 	RetMsg      string `json:"ret_msg"`
 }
 
+// PlayerStatus stores data related to a Players current Status
 type PlayerStatus struct {
 	Match                 int64  `json:"Match"`
 	MatchQueueID          int64  `json:"match_queue_id"`
@@ -117,6 +147,7 @@ type PlayerStatus struct {
 	StatusString          string `json:"status_string"`
 }
 
+// PlayerAchievements stores data realted to a Player's unlocked Achievements
 type PlayerAchievements struct {
 	AssistedKills        int64  `json:"AssistedKills"`
 	CampsCleared         int64  `json:"CampsCleared"`
@@ -146,6 +177,7 @@ type PlayerAchievements struct {
 	RetMsg               string `json:"ret_msg"`
 }
 
+// TeamDetail stores data related to a Smite Clan
 type TeamDetail struct {
 	Founder   string `json:"Founder"`
 	FounderID string `json:"FounderId"`
@@ -159,6 +191,7 @@ type TeamDetail struct {
 	RetMsg    string `json:"ret_msg"`
 }
 
+// TeamPlayer stores data related to a Smite Clan Member
 type TeamPlayer struct {
 	AccountLevel      int    `json:"AccountLevel"`
 	JoinedDatetime    string `json:"JoinedDatetime"`

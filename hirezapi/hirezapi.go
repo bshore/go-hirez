@@ -6,6 +6,7 @@ import "github.com/bshore/go-hirez/models"
 // Definitions here are taken from the publicly available "Smite API Developer Guide" PDF
 type HiRezAPI interface {
 	// ===== Connectivity =====
+
 	// Ping is a quick way of validating access to the Hi-Rez API.
 	Ping() error
 	// CreateSession is a required step to Authenticate the developerId/signature for further API use.
@@ -22,6 +23,7 @@ type HiRezAPI interface {
 	ChangeResponseType(respType string)
 
 	// ===== Player Related =====
+
 	// GetPlayer returns league and other high level data for a particular player.
 	GetPlayer(player string) ([]models.Player, error)
 	// GetPlayer returns league and other high level data for a particular player.
@@ -52,6 +54,7 @@ type HiRezAPI interface {
 	SearchPlayers(searchPlayer string) ([]models.PlayerIDInfo, error)
 
 	// ===== Game Entity Related =====
+
 	// GetGods returns all Gods and their various attributes.
 	GetGods(langCode string) ([]models.God, error)
 	// GetGodAltAbilities returns alt abilities for all Gods.
@@ -64,6 +67,7 @@ type HiRezAPI interface {
 	GetItems(langCode string) ([]models.Item, error)
 
 	// ===== Match Related =====
+
 	// GetMatchDetails returns the statistics for a particular completed match.
 	GetMatchDetails(matchID string) ([]models.MatchPlayer, error)
 	/*GetMatchDetailsBatch returns the statistics for a particular set of completed matches. (limit batch query to 5-10 matchIDs)
@@ -87,6 +91,7 @@ type HiRezAPI interface {
 	GetQueueStats(player, queueID string) ([]models.PlayerGodQueueStat, error)
 
 	// ===== Miscellaneous =====
+
 	// GetESportsProLeagueDetails returns matchup info for each matchup of the current season. match_status = 1 - scheduled, 2 - in progress, 3 - complete
 	GetESportsProLeagueDetails() ([]models.ESportsProLeagueDetail, error)
 	// GetGodLeaderboard returns the current season's leaderboard for a god/queue. [SmiteAPI: only queues 440, 450, 451 apply]
@@ -103,6 +108,7 @@ type HiRezAPI interface {
 	GetPatchInfo() (*models.VersionInfo, error)
 
 	// ===== Paladins =====
+
 	// GetPlayerBatch returns league and other high level data for a particular list of players. [20 max]
 	GetPlayerBatch(playerIDs []string) ([]models.Player, error)
 	// GetChampionRanks returns the rank and worshipper values for each Champion a player has played.

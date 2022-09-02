@@ -1,5 +1,6 @@
 package models
 
+// ESportsProLeagueDetail stores data related to ESports Matches
 type ESportsProLeagueDetail struct {
 	AwayTeamClanID    int64  `json:"away_team_clan_id"`
 	AwayTeamName      string `json:"away_team_name"`
@@ -18,6 +19,7 @@ type ESportsProLeagueDetail struct {
 	WinningTeamClanID int64  `json:"winning_team_clan_id"`
 }
 
+// GodLeaderboardEntry stores data related to the God Leaderboard
 type GodLeaderboardEntry struct {
 	GodID         string `json:"god_id"`
 	Losses        string `json:"losses"`
@@ -29,6 +31,7 @@ type GodLeaderboardEntry struct {
 	Wins          string `json:"wins"`
 }
 
+// LeagueLeaderboardEntry stores data related to the League Leaderboard
 type LeagueLeaderboardEntry struct {
 	Leaves       int64  `json:"Leaves"`
 	Losses       int64  `json:"Losses"`
@@ -46,6 +49,7 @@ type LeagueLeaderboardEntry struct {
 	RetMsg       string `json:"ret_msg"`
 }
 
+// Season stores data related to a game Season
 type Season struct {
 	Complete          bool   `json:"complete"`
 	ID                int64  `json:"id"`
@@ -56,6 +60,7 @@ type Season struct {
 	Season            int64  `json:"season"`
 }
 
+// MOTD stores data related to Match Of The Day modes
 type MOTD struct {
 	Description   string `json:"description"`
 	GameMode      string `json:"gameMode"`
@@ -68,6 +73,7 @@ type MOTD struct {
 	Title         string `json:"title"`
 }
 
+// TopMatch stores data related to a recent Top Match
 type TopMatch struct {
 	Ban1              string `json:"Ban1"`
 	Ban1ID            int64  `json:"Ban1Id"`
@@ -93,6 +99,7 @@ type TopMatch struct {
 	RetMsg            string `json:"ret_msg"`
 }
 
+// VerstionInfo stores data related to the version of a game patch
 type VersionInfo struct {
 	RetMsg        string `json:"ret_msg"`
 	VersionString string `json:"version_string"`

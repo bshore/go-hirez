@@ -1,5 +1,6 @@
 package models
 
+// God stores data related to an in game God
 type God struct {
 	Ability1                   string                 `json:"Ability1"`
 	Ability2                   string                 `json:"Ability2"`
@@ -26,9 +27,9 @@ type God struct {
 	HealthPerLevel             int64                  `json:"HealthPerLevel"`
 	Lore                       string                 `json:"Lore"`
 	MP5PerLevel                float32                `json:"MP5PerLevel"`
-	MagicProtection            int64                  `json:"MagicProtection"`
+	MagicProtection            float32                `json:"MagicProtection"`
 	MagicProtectionPerLevel    float32                `json:"MagicProtectionPerLevel"`
-	MagicalPower               int64                  `json:"MagicalPower"`
+	MagicalPower               float32                `json:"MagicalPower"`
 	MagicalPowerPerLevel       float32                `json:"MagicalPowerPerLevel"`
 	Mana                       int64                  `json:"Mana"`
 	ManaPerFive                float32                `json:"ManaPerFive"`
@@ -36,9 +37,9 @@ type God struct {
 	Name                       string                 `json:"Name"`
 	OnFreeRotation             string                 `json:"OnFreeRotation"`
 	Pantheon                   string                 `json:"Pantheon"`
-	PhysicalPower              int64                  `json:"PhysicalPower"`
+	PhysicalPower              float32                `json:"PhysicalPower"`
 	PhysicalPowerPerLevel      float32                `json:"PhysicalPowerPerLevel"`
-	PhysicalProtection         int64                  `json:"PhysicalProtection"`
+	PhysicalProtection         float32                `json:"PhysicalProtection"`
 	PhysicalProtectionPerLevel float32                `json:"PhysicalProtectionPerLevel"`
 	Pros                       string                 `json:"Pros"`
 	Roles                      string                 `json:"Roles"`
@@ -63,6 +64,7 @@ type God struct {
 	RetMsg                     string                 `json:"ret_msg"`
 }
 
+// GodAbility stores data related to a God Ability
 type GodAbility struct {
 	Description AbilityItemDescription `json:"Description"`
 	ID          int64                  `json:"Id"`
@@ -70,6 +72,7 @@ type GodAbility struct {
 	URL         string                 `json:"URL"`
 }
 
+// GodAltAbility stores data related to a God's Alternate Ability
 type GodAltAbility struct {
 	AltName     string `json:"alt_name"`
 	AltPosition string `json:"alt_position"`
@@ -79,14 +82,17 @@ type GodAltAbility struct {
 	RetMsg      string `json:"ret_msg"`
 }
 
+// GodBasicAttack stores data related to a God's Basic Attack Ability
 type GodBasicAttack struct {
 	ItemDescription AbilityItemDescription `json:"itemDescription"`
 }
 
+// AbilityItemDescription stores data related to a God's Ability
 type AbilityItemDescription struct {
 	ItemDescription AbilityDescription `json:"itemDescription"`
 }
 
+// AbilityDescription stores data related to a God's Ability
 type AbilityDescription struct {
 	Cooldown    string                        `json:"cooldown"`
 	Cost        string                        `json:"cost"`
@@ -95,11 +101,13 @@ type AbilityDescription struct {
 	RankItems   []AbilityDescriptionValueItem `json:"rankitems"`
 }
 
+// AbilityDescriptionValueItem stores data related to the values of a God's Ability
 type AbilityDescriptionValueItem struct {
 	Description string `json:"description"`
 	Value       string `json:"value"`
 }
 
+// GodSkin stores data related to a Skin for a God
 type GodSkin struct {
 	GodIconURL    string `json:"godIcon_URL"`
 	GodSkinURL    string `json:"godSkin_URL"`
@@ -114,6 +122,7 @@ type GodSkin struct {
 	SkinName      string `json:"skin_name"`
 }
 
+// GodRecommendedItem stores data related to a Recommended Item to build for a God
 type GodRecommendedItem struct {
 	Category        string `json:"Category"`
 	Item            string `json:"Item"`
@@ -127,6 +136,7 @@ type GodRecommendedItem struct {
 	RoleValueID     int64  `json:"role_value_id"`
 }
 
+// Item stores data related to an in game Item
 type Item struct {
 	ActiveFlag      string          `json:"ActiveFlag"`
 	ChildItemID     int64           `json:"ChildItemId"`
@@ -145,12 +155,14 @@ type Item struct {
 	RetMsg          string          `json:"ret_msg"`
 }
 
+// ItemDescription stores data related to an Item's Description
 type ItemDescription struct {
 	Description          string                     `json:"Description"`
 	MenuItems            []ItemDescriptionValueItem `json:"Menuitems"`
 	SecondaryDescription string                     `json:"SecondaryDescription"`
 }
 
+// ItemDescriptionValueItem stores data related to the Value of an Item stat
 type ItemDescriptionValueItem struct {
 	Description string `json:"Description"`
 	Value       string `json:"value"`

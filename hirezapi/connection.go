@@ -70,7 +70,7 @@ func (a *APIClient) TestSession() (string, error) {
 	return string(body), nil
 }
 
-// GetHirezServerStatus returns UP/DOWN status for the primary game/platform environments. Data is cached once a minute.
+// GetHiRezServerStatus returns UP/DOWN status for the primary game/platform environments. Data is cached once a minute.
 func (a *APIClient) GetHiRezServerStatus() ([]models.HiRezServerStatus, error) {
 	resp, err := a.makeRequest("gethirezserverstatus", "")
 	if err != nil {

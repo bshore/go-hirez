@@ -43,7 +43,6 @@ func (a *APIClient) GetGodAltAbilities() ([]models.GodAltAbility, error) {
 	if err != nil {
 		return nil, err
 	}
-	fmt.Println(string(body))
 	var output []models.GodAltAbility
 	err = a.unmarshalResponse(body, &output)
 	return output, err

@@ -1,11 +1,13 @@
 package models
 
+// Match stores data related to an in game Match
 type Match struct {
 	ActiveFlag string `json:"Active_Flag"`
-	Match      string `json:"Match"`
+	Match      int64  `json:"Match"`
 	RetMsg     string `json:"ret_msg"`
 }
 
+// MatchPlayer stores data related to a Player present in a Match
 type MatchPlayer struct {
 	ActiveID1           int64  `json:"ActiveId1"`
 	ActiveID2           int64  `json:"ActiveId2"`
@@ -90,6 +92,7 @@ type MatchPlayer struct {
 	RetMsg              string `json:"ret_msg"`
 }
 
+// LiveMatchPlayer stores data related to a Player in a currently Live Match
 type LiveMatchPlayer struct {
 	AccountGodsPlayed int64  `json:"Account_Gods_Played"`
 	AccountLevel      int64  `json:"Account_Level"`
@@ -113,6 +116,7 @@ type LiveMatchPlayer struct {
 	TierWins          int64  `json:"tierWins"`
 }
 
+// PlayerGodQueueStat stores data related to a Player's stats for a given Queue type
 type PlayerGodQueueStat struct {
 	Assists    int64  `json:"Assists"`
 	Deaths     int64  `json:"Deaths"`

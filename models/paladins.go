@@ -1,5 +1,6 @@
 package models
 
+// Champion stores data related to an in game Champion
 type Champion struct {
 	Ability1               string          `json:"Ability1"`
 	Ability2               string          `json:"Ability2"`
@@ -46,6 +47,7 @@ type Champion struct {
 	RetMsg                 string          `json:"ret_msg"`
 }
 
+// ChampionAbility stores data related to a Champion Ability
 type ChampionAbility struct {
 	Description     string `json:"Description"`
 	ID              int64  `json:"Id"`
@@ -55,6 +57,7 @@ type ChampionAbility struct {
 	RechargeSeconds int64  `json:"rechargeSeconds"`
 }
 
+// ChampionLeaderboardEntry stores data related to the Champion Leaderboard
 type ChampionLeaderboardEntry struct {
 	ChampionID    string `json:"champion_id"`
 	Losses        string `json:"losses"`
@@ -66,6 +69,7 @@ type ChampionLeaderboardEntry struct {
 	Wins          string `json:"wins"`
 }
 
+// ChampionSkin stores data related to a Skin for a Champion
 type ChampionSkin struct {
 	ChampionID      int64  `json:"champion_id"`
 	ChampionName    string `json:"champion_name"`
@@ -77,6 +81,7 @@ type ChampionSkin struct {
 	SkinNameEnglish string `json:"skin_name_english"`
 }
 
+// ChampionRank stores data related to player stats for a Champion
 type ChampionRank struct {
 	Assists     int64  `json:"Assists"`
 	Deaths      int64  `json:"Deaths"`
@@ -95,6 +100,7 @@ type ChampionRank struct {
 	RetMsg      string `json:"ret_msg"`
 }
 
+// PlayerLoadout stores data related to a Player's Champion Loadout
 type PlayerLoadout struct {
 	ChampionID   int64         `json:"ChampionId"`
 	ChampionName string        `json:"ChampionName"`
@@ -106,12 +112,14 @@ type PlayerLoadout struct {
 	RetMsg       string        `json:"ret_msg"`
 }
 
+// LoadoutItem stores data related to an Item inside a Loadout
 type LoadoutItem struct {
 	ItemID   int64  `json:"ItemId"`
 	ItemName string `json:"ItemName"`
 	Points   int64  `json:"Points"`
 }
 
+// PlayerIDInfoForXBOXAndSwitch stores data related to various identifiers for a Player
 type PlayerIDInfoForXBOXAndSwitch struct {
 	Name         string `json:"Name"`
 	Gamertag     string `json:"gamer_tag"`
@@ -121,6 +129,7 @@ type PlayerIDInfoForXBOXAndSwitch struct {
 	RetMsg       string `json:"ret_msg"`
 }
 
+// ChampionCard stores data related to a Card for a Champion
 type ChampionCard struct {
 	ActiveFlagActivationSchedule string `json:"active_flag_activation_schedule"`
 	ActiveFlagLTI                string `json:"active_flag_lti"`
@@ -141,6 +150,7 @@ type ChampionCard struct {
 	RetMsg                       string `json:"ret_msg"`
 }
 
+// BountyItem stores data related to a Bounty Item in Paladins
 type BountyItem struct {
 	Active          string `json:"active"`
 	BountyItemID1   int64  `json:"bounty_item_id1"`

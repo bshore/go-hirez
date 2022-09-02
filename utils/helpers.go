@@ -16,7 +16,7 @@ const (
 	NotRankedErrMsg = "only applies to queues: Joust1v1Ranked, Joust3v3Ranked, and ConquestRanked (440, 450, and 451)"
 )
 
-// IsNotSmitePath checks that the client BasePath is for Smite
+// IsSmitePath checks that the client BasePath is for Smite
 func IsSmitePath(basePath string) bool {
 	return strings.Contains(basePath, "smite")
 }
